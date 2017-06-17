@@ -1,0 +1,137 @@
+html, body {
+    height: 100%;
+}
+
+html {
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    font-size: 13px;
+    line-height: 20px;
+    background-color: white;
+    user-select: none;
+}
+
+/* Navbar */
+
+.full-width .container {
+    width: 100%;
+    padding: 0 20px;
+}
+
+.header-icon {
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.nav-tabs {
+    font-size: 16px !important;
+}
+
+.logo {
+    font-family: 'Pacifico', cursive;
+    font-size: 32px !important;
+    color: white !important;
+    font-size: 22px;    
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.loading-screen {
+    padding: 20px;    
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 40px;
+}
+
+.catalogue-tile-layout {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.catalogue-tile {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding: 10px;
+    width: 140px;
+    height: 140px;
+    background-color: orange;
+    color: black;
+    text-align: center;    
+    border-radius: 3px;
+    font-size: 16px;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.catalogue-tile-back {
+    font-size: 24px;
+}
+
+.catalogue-price {
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+.cashpoint-layout {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    height: 100%;
+    margin: 0 20px;
+    flex-wrap: wrap;
+}
+
+.cashpoint-catalogue {
+    padding: 10px;
+    width: 600px;
+    height: 650px;    
+    margin-right: 40px;
+}
+
+.cashpoint-bill {    
+    padding: 10px;
+    flex-grow: 1;
+    min-width: 200px;
+    margin-top: 20px;
+}
+
+.total-price {
+    text-align: right;
+    font-weight: bold;
+}
+
+.receipt-table td {
+    border-top: none !important;
+}
+
+.col-right {
+    text-align: right
+}
+
+.full-width {
+    width: 100%;
+}
+
+.jumbotron {
+    padding: 20px;
+    height: 2000px;
+    margin-top: 20px;
+}
+
+th {
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+td {
+    font-size: 16px;
+}

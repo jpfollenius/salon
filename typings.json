@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "react": "registry:npm/react#15.0.1+20170104200836",
+    "react-dom": "registry:npm/react-dom#15.0.1+20160826174104",
+    "react-test-renderer": "registry:dt/react-test-renderer#15.4.0+20170123203653"
+  },
+  "globalDependencies": {
+    "jest": "registry:dt/jest#19.2.0+20170312200138"
+  }
+}

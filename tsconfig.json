@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "module": "commonjs",
+        "noImplicitAny": false,
+        "outDir": "./build/",
+        "preserveConstEnums": true,
+        "target": "es6",        
+        "experimentalDecorators": true,
+        "allowJs": true
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "awesomeTypescriptLoaderOptions": {
+        "useBabel": true,
+        "useCache": true
+    }
+}
+
