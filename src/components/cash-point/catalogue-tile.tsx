@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-interface CatalogueTileProps {
+interface CatalogueTileProps {    
     id: number
     text: JSX.Element
     textColor: string

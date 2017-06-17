@@ -13,11 +13,24 @@ body {
     user-select: none;
 }
 
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    border-bottom: 1px solid lightgray;
+}
+
+
 /* Navbar */
 
 .full-width .container {
     width: 100%;
     padding: 0 20px;
+}
+
+.navbar {    
+    margin-bottom: 0;
 }
 
 .header-icon {
@@ -86,7 +99,9 @@ body {
     justify-content: center;
     align-items: stretch;
     height: 100%;
-    margin: 0 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
     flex-wrap: wrap;
 }
 
@@ -104,9 +119,20 @@ body {
     margin-top: 20px;
 }
 
+.cashpoint-buttons {
+    /*position: absolute;
+    bottom: 60px;
+    right: 20px;*/
+    height: 32px;
+    display: flex;   
+    justify-content: flex-end; 
+    margin-top: 40px;
+}
+
 .total-price {
     text-align: right;
     font-weight: bold;
+    font-size: 24px;
 }
 
 .receipt-table td {
@@ -114,7 +140,9 @@ body {
 }
 
 .col-right {
-    text-align: right
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .full-width {
@@ -128,10 +156,14 @@ body {
 }
 
 th {
-    font-size: 16px;
-    font-weight: bolder;
+    font-size: 16px;    
 }
 
 td {
     font-size: 16px;
+    line-height: 40px;
+}
+
+.number-edit {
+    width: 100px;
 }

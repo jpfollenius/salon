@@ -1,22 +1,22 @@
 import * as React from 'react'
-import { inject, observer } from 'mobx-react'
+import { observer, inject } from 'mobx-react'
 
 import * as Glyphicon from 'react-bootstrap/lib/Glyphicon'
 
 import CatalogueTile from './catalogue-tile'
 import { ProductStore } from '../../domain/product-store'
 
-interface CatalogueCategoryProductsTilesProps {
-    category: number
+interface SearchResultsTilesProps {
+    searchTerm: string
     onNavigateBack
     onProductSelected
     productStore?: ProductStore
 }
 
 @inject('productStore') @observer
-export default class CatalogueCategoryProductsTiles extends React.Component<CatalogueCategoryProductsTilesProps, {}> {    
-    render() {      
-        const products = this.props.productStore.getProducts(this.props.category)
+export default class SearchResultsTiles extends React.Component<SearchResultsTilesProps, {}> {
+    render() {        
+        const products = this.props.productStore.searchProducts(this.props.searchTerm)
 
         let tiles = products.map(product => {
             return (
@@ -26,7 +26,7 @@ export default class CatalogueCategoryProductsTiles extends React.Component<Cata
                     bgColor='#2c3e50'
                     textColor='white'
                     text={ 
-                        <div>
+                        <div>                            
                             <p className='catalogue-text'>{ product.name }</p> 
                             <p className='catalogue-price'>{ product.price + ' €' }</p>
                         </div>
@@ -62,5 +62,5 @@ export default class CatalogueCategoryProductsTiles extends React.Component<Cata
 
     handleBackClick = (idx) => {
         this.props.onNavigateBack()
-    }
+    }        
 }

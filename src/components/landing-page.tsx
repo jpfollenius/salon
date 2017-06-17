@@ -47,8 +47,10 @@ export default class LandingPage extends React.Component<LandingPageProps, void>
 
                     <Nav pullRight>
                         <NavItem>
-                            <Button>Registrieren</Button>
-                            <Button bsStyle='primary' onClick={this.handleLogin}>Anmelden</Button>
+                            <ButtonToolbar>
+                                <Button>Registrieren</Button>
+                                <Button bsStyle='primary' onClick={this.handleLogin}>Anmelden</Button>
+                            </ButtonToolbar>
                         </NavItem>
                     </Nav> 
                 </Navbar>

@@ -9,12 +9,15 @@ import * as Glyphicon from 'react-bootstrap/lib/Glyphicon'
 
 import CatalogueCategoryTiles from './catalogue-category-tiles'
 import CatalogueCategoryProductsTiles from './catalogue-product-tiles'
+import SearchResultsTiles from './catalogue-search-results-tiles'
+import { ProductStore } from '../../domain/product-store'
 
 interface CatalogueProps {
-
+    onProductSelected
+    productStore?: ProductStore
 }
 
-@observer
+@inject('productStore') @observer
 export default class Catalogue extends React.Component<CatalogueProps, {}> {
     @observable searchTerm
     @observable selectedCategory = -1
@@ -32,15 +35,17 @@ export default class Catalogue extends React.Component<CatalogueProps, {}> {
                                     </FormGroup>
 
                                 </Form>  
-                            </div>               
+                            </div>   
 
-                            <CatalogueCategoryTiles 
-                                onCategorySelected={ this.handleCategorySelected } 
-                            /> 
+                            { this.searchTerm && this.searchTerm !== '' 
+                                ? <SearchResultsTiles searchTerm={this.searchTerm} onNavigateBack={ this.handleSearchBack } onProductSelected={ this.handleProductSelected } />
+                                : <CatalogueCategoryTiles onCategorySelected={ this.handleCategorySelected } />                                 
+                            }            
+                            
                         </div>
                     : 
                         <div>
-                            <p className='title'>Kategorie</p>
+                            <p className='title'>{ this.props.productStore.getProductCategories() [this.selectedCategory] }</p>
                             <CatalogueCategoryProductsTiles 
                                 category={ this.selectedCategory } 
                                 onProductSelected= { this.handleProductSelected } 
@@ -55,6 +60,15 @@ export default class Catalogue extends React.Component<CatalogueProps, {}> {
     }
 
     @action handleSearchTermChange = (e) => {
+        const barcodeProduct = this.props.productStore.findProductByBarcode(e.target.value)
+        console.log(barcodeProduct)
+        if (barcodeProduct) {
+            console.log('FOUND')
+            this.props.onProductSelected(barcodeProduct.id)
+            this.searchTerm = ''
+            return
+        }
+        
         this.searchTerm = e.target.value
     }
 
@@ -62,12 +76,16 @@ export default class Catalogue extends React.Component<CatalogueProps, {}> {
         this.selectedCategory = id
     }
 
-    handleProductSelected = (idx) => {
-        console.log('product ', idx, ' selected')
+    handleProductSelected = (productId) => {
+        this.props.onProductSelected(productId)        
     }
 
     @action handleCategoryBack = () => {
         this.selectedCategory = -1
+    }
+
+    @action handleSearchBack = () => {
+        this.searchTerm = ''
     }
   
 }

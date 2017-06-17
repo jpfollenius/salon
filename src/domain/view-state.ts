@@ -1,6 +1,8 @@
 import { observable, computed, action, autorunAsync, toJS, extendObservable } from 'mobx'
 import * as firebase from 'firebase'
 
+import { Receipt } from './receipt-store'
+
 export enum View {
     CashPoint,
     Calendar,
@@ -15,6 +17,7 @@ export class ViewState {
     @observable currentUserId
     @observable currentView: View
     @observable isLoading: boolean
+    @observable currentReceipt
 
     @observable modal = {
         show: false,    
@@ -24,6 +27,7 @@ export class ViewState {
     
     constructor() {        
         this.currentView = View.CashPoint        
+        this.currentReceipt = new Receipt()
         this.load()
     }      
 

@@ -36,7 +36,7 @@ firebase.auth().onAuthStateChanged((user) => {
 autorun(() => {    
     if (viewState.currentUserId) {
         viewState.startLoading()
-        productStore.loadProducts(viewState.currentUserId)   
+        productStore.load(viewState.currentUserId)   
             .then(viewState.finishedLoading.bind(viewState))
     }        
 })
