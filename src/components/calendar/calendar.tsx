@@ -65,8 +65,10 @@ export default class Calendar extends React.Component<CalendarProps, {}> {
                     formats={formats} 
                     messages={messages}
                     toolbar={false} 
-                    startAccessor='' 
-                    endAccessor='' 
+                    startAccessor='start' 
+                    endAccessor='end' 
+                    min={new Date(2017, 6, 18, 8, 0, 0)}
+                    max={new Date(2017, 6, 18, 19, 0, 0)}
                 />           
             </div>
 
