@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { observable, action } from 'mobx'
-import { observer } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 
 import * as Table from 'react-bootstrap/lib/Table'
 import * as Button from 'react-bootstrap/lib/Button'
@@ -10,12 +10,14 @@ import * as FormControl from 'react-bootstrap/lib/FormControl'
 
 import { Receipt, ReceiptItem } from '../../domain/receipt-store'
 import { formatPrice } from '../../utils/utils'
+import { ViewState } from '../../domain/view-state'
+import PaymentDialog from './payment-dialog'
 
 interface ReceiptItemViewProps {
     idx: number
     receiptItem: ReceiptItem
     onClick?
-    onDeleteItem?
+    onDeleteItem?    
 }
 
 @observer
@@ -105,10 +107,11 @@ class ExpandedReceiptItemView extends React.Component<ReceiptItemViewProps, {}> 
 }
 
 interface ReceiptViewProps {
-    receipt: Receipt    
+    receipt: Receipt  
+    viewState?: ViewState  
 }
 
-@observer
+@inject('viewState')  @observer
 export default class ReceiptView extends React.Component<ReceiptViewProps, {}> {
     @observable selectedRow = -1
 
@@ -140,7 +143,7 @@ export default class ReceiptView extends React.Component<ReceiptViewProps, {}> {
                 <div className='cashpoint-buttons'>
                     <ButtonToolbar>
                         <Button onClick={ this.handleDiscardClick }>Verwerfen</Button>
-                        <Button bsStyle='primary'>Kassieren</Button>                    
+                        <Button bsStyle='primary' onClick={ this.handlePayment }>Kassieren</Button>                    
                     </ButtonToolbar>
                 </div>
             </div>
@@ -162,5 +165,15 @@ export default class ReceiptView extends React.Component<ReceiptViewProps, {}> {
     @action handleItemDelete(idx) {
         this.props.receipt.deleteItem(idx)
         this.selectedRow = -1
+    }
+
+    @action handlePayment = () => {
+        this.props.viewState.showModal('Kassieren', <PaymentDialog amount={this.props.receipt.totalPrice} onSubmit={ this.handleSubmit } />)
+    }
+
+    handleSubmit = () => {
+        // TODO
+        this.props.receipt.clear()
+        this.props.viewState.closeModal()
     }
 }

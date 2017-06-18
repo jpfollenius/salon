@@ -21,6 +21,9 @@ body {
     border-bottom: 1px solid lightgray;
 }
 
+.button-icon {
+    margin-right: 10px;
+}
 
 /* Navbar */
 
@@ -140,10 +143,10 @@ body {
 .total-price {
     text-align: right;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 24px;    
 }
 
-.receipt-table td {
+Table td {
     border-top: none !important;
 }
 
@@ -176,4 +179,26 @@ td {
 
 .number-edit {
     width: 100px;
+}
+
+.payment-table {    
+    margin: 20px;
+}
+
+.payment-table tbody tr td {
+    vertical-align: middle;
+    margin: 0 20px;
+    min-width: 200px;
+    min-height: 60px;
+}
+
+.payment-button {
+    width: 100px;
+    height: 48px;
+}
+
+.payment-total-price {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 20px;    
 }
