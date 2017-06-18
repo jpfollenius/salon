@@ -72,8 +72,8 @@ body {
     margin-right: 5px;
     margin-bottom: 5px;
     padding: 10px;
-    width: 140px;
-    height: 140px;
+    width: 120px;
+    height: 120px;
     background-color: orange;
     color: black;
     text-align: center;    
@@ -107,7 +107,7 @@ body {
 
 .cashpoint-catalogue {
     padding: 10px;
-    width: 600px;
+    width: 520px;
     height: 650px;    
     margin-right: 40px;
 }
@@ -129,6 +129,14 @@ body {
     margin-top: 40px;
 }
 
+.receipt-row {
+    height: 60px;    
+}
+
+.table tbody tr td {
+    vertical-align: middle; 
+}
+
 .total-price {
     text-align: right;
     font-weight: bold;
@@ -140,9 +148,11 @@ body {
 }
 
 .col-right {
-    text-align: right;
-    display: flex;
-    justify-content: flex-end;
+    text-align: right;            
+}
+
+.col-highlighted {
+    font-weight: bold;
 }
 
 .full-width {

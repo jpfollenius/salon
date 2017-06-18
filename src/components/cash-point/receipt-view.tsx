@@ -4,6 +4,7 @@ import { observer } from 'mobx-react'
 
 import * as Table from 'react-bootstrap/lib/Table'
 import * as Button from 'react-bootstrap/lib/Button'
+import * as ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import * as ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
 import * as FormControl from 'react-bootstrap/lib/FormControl'
 
@@ -23,11 +24,11 @@ class ReceiptItemView extends React.Component<ReceiptItemViewProps, {}> {
         const receiptItem = this.props.receiptItem
 
         return (
-            <tr key={this.props.idx} onClick={ (e) => {console.log(e); this.props.onClick(this.props.idx)} }>                        
+            <tr className='receipt-row' onClick={ (e) => {console.log(e); this.props.onClick(this.props.idx)} }>                        
                 <td>{ receiptItem.product.name }</td>
                 <td className='col-right'>{ receiptItem.quantity }</td>
                 <td className='col-right'>{ formatPrice(receiptItem.price) } €</td>
-                <td className='col-right'>{ formatPrice(receiptItem.totalPrice) } €</td>                        
+                <td className='col-right col-highlighted'>{ formatPrice(receiptItem.totalPrice) } €</td>                        
             </tr>       
         )
     }
@@ -35,6 +36,14 @@ class ReceiptItemView extends React.Component<ReceiptItemViewProps, {}> {
 
 @observer
 class ExpandedReceiptItemView extends React.Component<ReceiptItemViewProps, {}> {
+    @observable changedQuantity: number
+    @observable changedPrice: number
+
+    componentWillMount() {
+        this.changedQuantity = this.props.receiptItem.quantity
+        this.changedPrice = this.props.receiptItem.price
+    }
+
     render() { 
         const receiptItem = this.props.receiptItem
 
@@ -47,37 +56,46 @@ class ExpandedReceiptItemView extends React.Component<ReceiptItemViewProps, {}> 
                         <Button>Retoure</Button>
                     </ButtonToolbar>
                 </td>
-                <td className='col-right'>
+                <td className='col-right'>                    
                     <FormControl 
                         onClick={(e) => {e.defaultPrevented = true}}
                         className='pull-right number-edit' 
                         type='number' 
-                        value={ receiptItem.quantity } 
+                        value={ this.changedQuantity } 
                         onChange={ this.handleQuantityChange }
-                    />
+                    />                                     
                 </td>
                 <td className='col-right'>
                     <FormControl 
                         onClick={(e) => {e.defaultPrevented = true}}
                         className='pull-right number-edit' 
                         type='number' 
-                        value={ formatPrice(receiptItem.price) } 
+                        value={ formatPrice(this.changedPrice) } 
                         onChange={ this.handlePriceChange }                    
                     />
                 </td>
-                <td className='col-right'>{ receiptItem.totalPrice } €</td>                        
+                <td className='col-right col-highlighted'>{ receiptItem.totalPrice } €</td>                        
             </tr>             
         )
     }
 
     @action handleQuantityChange = (e) => {
-        if (e.target.value > 0)
-            this.props.receiptItem.quantity = e.target.value
+        console.log('quantity change: ', e.target.value)
+        if (e.target.value && e.target.value <= 0)
+            return
+
+        this.changedQuantity = e.target.value
+        if (this.changedQuantity)
+            this.props.receiptItem.quantity = this.changedQuantity        
     }
 
     @action handlePriceChange = (e) => {
-        if (e.target.value >= 0)
-            this.props.receiptItem.price = e.target.value
+        if (e.target.value && e.target.value < 0)
+            return
+
+        this.changedPrice = e.target.value
+        if (this.changedPrice)
+            this.props.receiptItem.price = this.changedPrice        
     }
 
     @action handleDeleteClick = (e) => {
@@ -97,8 +115,8 @@ export default class ReceiptView extends React.Component<ReceiptViewProps, {}> {
     render() {          
         const rows = this.props.receipt.items.map((receiptItem, idx) => {
             return (idx === this.selectedRow)
-                ?  <ExpandedReceiptItemView idx={idx} receiptItem={receiptItem} onDeleteItem={(idx) => this.handleItemDelete(idx)} onClick={(idx) => this.handleRowClick(idx)} />                
-                :  <ReceiptItemView idx={idx} receiptItem={receiptItem} onClick={(idx) => this.handleRowClick(idx)} />            
+                ?  <ExpandedReceiptItemView key={idx} idx={idx} receiptItem={receiptItem} onDeleteItem={(idx) => this.handleItemDelete(idx)} onClick={(idx) => this.handleRowClick(idx)} />                
+                :  <ReceiptItemView key={idx} idx={idx} receiptItem={receiptItem} onClick={(idx) => this.handleRowClick(idx)} />            
         })
 
         return (

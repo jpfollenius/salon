@@ -8,13 +8,15 @@ export class Product {
     @observable name: string
     @observable price: number
     @observable barcode: string
+    category: number
 
-    constructor(store, id, name, price, barcode) {
+    constructor(store, id, name, price, barcode, category) {
         this.store = store
         this.id = id        
         this.name = name        
         this.price = price
         this.barcode = barcode
+        this.category = category
     }
 }
 
@@ -51,9 +53,20 @@ export class ProductStore {
 
     @action loadProducts(db, userId) {
         this.products = [
-            new Product(this, 0, 'Schnitt', 12, '1234'),
-            new Product(this, 1, 'Föhnen', 6, '1235'),
-            new Product(this, 2, 'Schnitt + Föhnen', 16, '1236'),
+            new Product(this, 0, 'Schnitt', 28, '1234', 0),
+            new Product(this, 1, 'Maschinen-Schnitt', 12, '1235', 0),
+            new Product(this, 2, 'Kopfmassage', 8, '1236', 0),
+            new Product(this, 3, 'Bart formen', 10, '1237', 0),
+            new Product(this, 4, 'Farbe Herren', 24, '1238', 0),
+
+            new Product(this, 5, 'Schnitt', 30, '1239', 1),
+            new Product(this, 6, 'Neu Schnitt', 40, '1240', 1),
+            new Product(this, 7, 'Spitzen schneiden', 20, '1241', 1),
+
+            new Product(this, 8, 'Föhnen Mittel', 15, undefined, 2),
+            new Product(this, 9, 'Föhnen Lang', 20, undefined, 2),
+            new Product(this, 10, 'Hochstecken 30 Min', 28, undefined, 2),
+            new Product(this, 11, 'Hochstecken 60 Min', 55, undefined, 2),
         ]
     }
 
@@ -70,7 +83,9 @@ export class ProductStore {
     }
 
     getProducts(productCategory: number): Product[] {
-        return this.products.slice()
+        return this.products.filter(product => {
+            return (product.category === productCategory)            
+        })
     }
 
     searchProducts(searchTerm: string): Product[] {
@@ -82,10 +97,8 @@ export class ProductStore {
     findProductByBarcode(barcode: string) {
         let foundProduct = null
 
-        this.products.forEach(product => {
-            console.log('barcodes ', barcode, product.barcode)
-            if (product.barcode === barcode) {
-                console.log('found ', product)
+        this.products.forEach(product => {            
+            if (product.barcode === barcode) {                
                 foundProduct = product
             }
         })
