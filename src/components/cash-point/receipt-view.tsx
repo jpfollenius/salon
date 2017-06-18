@@ -26,7 +26,7 @@ class ReceiptItemView extends React.Component<ReceiptItemViewProps, {}> {
         const receiptItem = this.props.receiptItem
 
         return (
-            <tr className='receipt-row' onClick={ (e) => {console.log(e); this.props.onClick(this.props.idx)} }>                        
+            <tr className='receipt-row' onClick={ (e) => {this.props.onClick(this.props.idx)} }>                        
                 <td>{ receiptItem.product.name }</td>
                 <td className='col-right'>{ receiptItem.quantity }</td>
                 <td className='col-right'>{ formatPrice(receiptItem.price) } €</td>
@@ -81,8 +81,7 @@ class ExpandedReceiptItemView extends React.Component<ReceiptItemViewProps, {}> 
         )
     }
 
-    @action handleQuantityChange = (e) => {
-        console.log('quantity change: ', e.target.value)
+    @action handleQuantityChange = (e) => {        
         if (e.target.value && e.target.value <= 0)
             return
 

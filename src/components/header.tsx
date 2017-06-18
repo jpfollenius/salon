@@ -53,7 +53,8 @@ export default class Header extends React.Component<HeaderProps, {}> {
 
     handleMenuSelect = key => {
         switch (key) {
-            case LogoMenu.Settings:                
+            case LogoMenu.Settings:   
+                this.props.viewState.setCurrentView(View.Settings)             
                 break
             case LogoMenu.Logout:
                 this.props.viewState.logout()

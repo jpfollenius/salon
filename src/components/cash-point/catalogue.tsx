@@ -60,10 +60,9 @@ export default class Catalogue extends React.Component<CatalogueProps, {}> {
     }
 
     @action handleSearchTermChange = (e) => {
-        const barcodeProduct = this.props.productStore.findProductByBarcode(e.target.value)
-        console.log(barcodeProduct)
-        if (barcodeProduct) {
-            console.log('FOUND')
+        const barcodeProduct = this.props.productStore.findProductByBarcode(e.target.value)        
+        
+        if (barcodeProduct) {            
             this.props.onProductSelected(barcodeProduct.id)
             this.searchTerm = ''
             return

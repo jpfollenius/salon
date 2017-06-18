@@ -88,8 +88,7 @@ export default class LandingPage extends React.Component<LandingPageProps, void>
                             </ButtonGroup>
                             <ButtonGroup>
                                 <Button active>Tag</Button>
-                                <Button>Woche</Button>
-                               
+                                <Button>Woche</Button>                               
                             </ButtonGroup>
                             <ButtonGroup className="pull-right">
                                 <SplitButton pullRight onClick={ this.toggleModal } title="Neuer Termin">

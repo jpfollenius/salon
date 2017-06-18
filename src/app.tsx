@@ -6,6 +6,12 @@ import * as firebase from 'firebase'
 import Main from './components/main'
 import viewState from './domain/view-state'
 import productStore from './domain/product-store'
+import * as BigCalendar from 'react-big-calendar'
+import * as moment from 'moment'
+
+// Setup BigCalendar
+moment.locale('de')
+BigCalendar.momentLocalizer(moment)
 
 // Import custom CSS
 import './main.css'

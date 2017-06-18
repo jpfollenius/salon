@@ -41,13 +41,13 @@ export default class PaymentDialog extends React.Component<PaymentDialogProps, {
                             <tr>
                                 <td><Button bsStyle='primary' disabled={this.isPaid} className='payment-button' onClick={ this.handleCashClick }>Bar</Button></td>
                                 <td>
-                                    <FormControl type='number'  disabled={this.isPaid} value={ this.cashAmount } onChange={ this.handleCashChange } />
+                                    <FormControl className='payment-edit' type='number'  disabled={this.isPaid} value={ this.cashAmount } onChange={ this.handleCashChange } />
                                 </td>
                             </tr>
                             <tr>
                                 <td><Button bsStyle='primary' disabled={this.isPaid} className='payment-button' onClick={ this.handleDebitClick }>EC</Button></td>
                                 <td>
-                                    <FormControl type='number'  disabled={this.isPaid} value={ this.debitAmount } onChange={ this.handleDebitChange } />
+                                    <FormControl className='payment-edit' type='number'  disabled={this.isPaid} value={ this.debitAmount } onChange={ this.handleDebitChange } />
                                 </td>
                             </tr>
                         </tbody>
@@ -55,11 +55,16 @@ export default class PaymentDialog extends React.Component<PaymentDialogProps, {
                 </Modal.Body>
                 <Modal.Footer>
                     { this.isPaid
-                        ?                 
-                            <ButtonToolbar className='pull-right'>
-                                <Button><Glyphicon className='button-icon' glyph='print' />Bon drucken</Button>
-                                <Button bsStyle='primary' onClick={this.props.onSubmit}>Fertig</Button>
-                            </ButtonToolbar>
+                        ?     
+                            <div> 
+                                <div className='modal-left'>
+                                    <Glyphicon glyph='ok' className='success-icon'/>Beleg wurde gebucht           
+                                </div>
+                                <ButtonToolbar className='pull-right'>
+                                    <Button><Glyphicon className='button-icon' glyph='print' />Bon drucken</Button>
+                                    <Button bsStyle='primary' onClick={this.props.onSubmit}>Fertig</Button>
+                                </ButtonToolbar>
+                            </div>
                         : <Button bsStyle='success' onClick={ this.handlePayedClick }>Bezahlt</Button>                    
                     }
                     

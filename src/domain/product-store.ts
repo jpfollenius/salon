@@ -41,8 +41,7 @@ export class ProductStore {
         this.categories = []
         const categoriesRef = db.ref(userId + '/categories')
 
-        categoriesRef.on('child_added', category => {
-            console.log('child_added: ', category.val())
+        categoriesRef.on('child_added', category => {            
             this.addCategory(category.val())            
         })    
 

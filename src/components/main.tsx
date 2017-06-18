@@ -9,6 +9,7 @@ import LandingPage from './landing-page'
 import { View, ViewState } from '../domain/view-state'
 import { ProductStore } from '../domain/product-store'
 import CashPoint from './cash-point/cash-point'
+import Calendar from './calendar/calendar'
 
 interface MainProps {
     viewState: ViewState
@@ -68,11 +69,12 @@ export default class Main extends React.Component<MainProps, {}> {
 
     renderCurrentView() {
         const view = this.props.viewState.currentView
+        
         switch (view) {
             case View.CashPoint:
                 return <CashPoint />
             case View.Calendar:
-                return <p>Kalender</p>                
+                return <Calendar />
             case View.Customers:
                 return <p>Kunden</p>    
             case View.Inventory:

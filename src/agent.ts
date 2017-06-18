@@ -4,12 +4,10 @@ const Auth = {
      authenticate: (email, password) => {         
          return new Promise((resolve, reject) => {            
             firebase.auth().signInWithEmailAndPassword(email, password)
-                .catch(error => {
-                    console.log(error)
+                .catch(error => {                    
                     reject(error.message)
                 })    
-                .then(() => {
-                    console.log('resolved')
+                .then(() => {                    
                     resolve()
                 })
          })
