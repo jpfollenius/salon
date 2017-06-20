@@ -123,7 +123,7 @@ export default class ReceiptView extends React.Component<ReceiptViewProps, {}> {
 
         return (
             <div>
-                <Table responsive hover striped className='receipt-table'>
+                <Table responsive hover condensed striped className='receipt-table'>
                     <thead>
                         <tr>
                             <th></th>

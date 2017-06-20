@@ -12,10 +12,34 @@ import * as Modal from 'react-bootstrap/lib/Modal'
 import * as Glyphicon from 'react-bootstrap/lib/Glyphicon'
 
 import { formatPrice } from '../../utils/utils'
+import commonStyles from '../../styles'
 
 interface PaymentDialogProps {
     amount: number
     onSubmit
+}
+
+const styles = {
+    remainingAmount: {        
+        fontSize: '24px',
+        color: 'green',        
+    },
+    button: {
+        width: '100px',
+        height: '48px',      
+    },
+    amountInput: {
+        fontSize: '16px',
+        height: '48px',  
+    },
+    successIcon: {
+        ...commonStyles.buttonIcon,
+        color: 'green'
+    },
+    successMessage: {
+        marginLeft: '5px',
+        marginTop: '5px',
+    }
 }
 
 @observer
@@ -36,18 +60,52 @@ export default class PaymentDialog extends React.Component<PaymentDialogProps, {
                         <tbody>
                             <tr>
                                 <td></td>
-                                <td><span className='payment-total-price'>{ formatPrice(this.remainingAmount) } €</span></td>
-                            </tr>
-                            <tr>
-                                <td><Button bsStyle='primary' disabled={this.isPaid} className='payment-button' onClick={ this.handleCashClick }>Bar</Button></td>
                                 <td>
-                                    <FormControl className='payment-edit' type='number'  disabled={this.isPaid} value={ this.cashAmount } onChange={ this.handleCashChange } />
+                                    <span style={styles.remainingAmount}>
+                                        { formatPrice(this.remainingAmount) } €
+                                    </span>
                                 </td>
                             </tr>
                             <tr>
-                                <td><Button bsStyle='primary' disabled={this.isPaid} className='payment-button' onClick={ this.handleDebitClick }>EC</Button></td>
                                 <td>
-                                    <FormControl className='payment-edit' type='number'  disabled={this.isPaid} value={ this.debitAmount } onChange={ this.handleDebitChange } />
+                                    <Button 
+                                        bsStyle='primary' 
+                                        disabled={this.isPaid} 
+                                        style={styles.button} 
+                                        onClick={ this.handleCashClick }
+                                    >
+                                        Bar
+                                    </Button>
+                                </td>
+                                <td>
+                                    <FormControl 
+                                        style={styles.amountInput} 
+                                        type='number' 
+                                        disabled={this.isPaid} 
+                                        value={ this.cashAmount } 
+                                        onChange={ this.handleCashChange } 
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Button 
+                                        bsStyle='primary' 
+                                        disabled={this.isPaid} 
+                                        style={styles.button} 
+                                        onClick={ this.handleDebitClick }
+                                    >
+                                        EC
+                                    </Button>
+                                </td>
+                                <td>
+                                    <FormControl 
+                                        style={styles.amountInput} 
+                                        type='number' 
+                                        disabled={this.isPaid} 
+                                        value={ this.debitAmount } 
+                                        onChange={ this.handleDebitChange } 
+                                    />
                                 </td>
                             </tr>
                         </tbody>
@@ -57,12 +115,16 @@ export default class PaymentDialog extends React.Component<PaymentDialogProps, {
                     { this.isPaid
                         ?     
                             <div> 
-                                <div className='modal-left'>
-                                    <Glyphicon glyph='ok' className='success-icon'/>Beleg wurde gebucht           
+                                <div className='pull-left' style={styles.successMessage}>
+                                    <Glyphicon glyph='ok' style={styles.successIcon} />Beleg wurde gebucht           
                                 </div>
                                 <ButtonToolbar className='pull-right'>
-                                    <Button><Glyphicon className='button-icon' glyph='print' />Bon drucken</Button>
-                                    <Button bsStyle='primary' onClick={this.props.onSubmit}>Fertig</Button>
+                                    <Button>
+                                        <Glyphicon style={commonStyles.buttonIcon} glyph='print' />Bon drucken
+                                    </Button>
+                                    <Button bsStyle='primary' onClick={this.props.onSubmit}>
+                                        Fertig
+                                    </Button>
                                 </ButtonToolbar>
                             </div>
                         : <Button bsStyle='success' onClick={ this.handlePayedClick }>Bezahlt</Button>                    
