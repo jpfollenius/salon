@@ -1,7 +1,8 @@
 var path = require("path");
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var VisualizerPlugin = require('webpack-visualizer-plugin')
+var VisualizerPlugin = require('webpack-visualizer-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var config = {
     devtool: 'eval',
@@ -43,6 +44,16 @@ var config = {
             template: './src/index.html',
             inject: 'body'
         }),
+        new CopyWebpackPlugin([
+            {
+                from: 'public/react-big-calendar.css',
+                to: 'react-big-calendar.css'
+            },
+            {
+                from: 'public/react-datepicker.css',
+                to: 'react-datepicker.css'
+            },
+        ], {}),
         new VisualizerPlugin()        
     ],
     devServer: {
