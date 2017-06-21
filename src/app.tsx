@@ -9,8 +9,10 @@ import productStore from './domain/product-store'
 import * as BigCalendar from 'react-big-calendar'
 import * as moment from 'moment'
 
-// Setup BigCalendar
+// Setup moment
 moment.locale('de')
+
+// Setup BigCalendar
 BigCalendar.momentLocalizer(moment)
 
 // Import custom CSS

@@ -39,6 +39,7 @@ export default class WeekCalendar extends React.Component<WeekCalendarProps, {}>
                     events={[]} 
                     view='week'                            
                     selectable 
+                    step={15}
                     formats={calendarFormats} 
                     messages={calendarMessages}
                     toolbar={false} 

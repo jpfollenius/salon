@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var VisualizerPlugin = require('webpack-visualizer-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 var config = {
     devtool: 'eval',
@@ -40,6 +41,7 @@ var config = {
         ]
     },
     plugins: [                
+        new CleanWebpackPlugin(['build']),
         new HtmlWebpackPlugin({
             template: './src/index.html',
             inject: 'body'
@@ -54,7 +56,7 @@ var config = {
                 to: 'react-datepicker.css'
             },
         ], {}),
-        new VisualizerPlugin()        
+        new VisualizerPlugin(),
     ],
     devServer: {
         port: 3000,

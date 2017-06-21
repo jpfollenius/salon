@@ -64,6 +64,7 @@ class DayCalendarColumn extends React.Component<DayCalendarColumnProps, {}> {
                 <BigCalendar                         
                     events={[]} 
                     date={this.props.date}
+                    step={15}
                     view='day'                            
                     selectable 
                     formats={calendarFormats} 
@@ -90,7 +91,7 @@ export default class DayCalendar extends React.Component<DayCalendarProps, {}> {
                 { employees.map((employee, idx) => 
                     <DayCalendarColumn 
                         key={idx}
-                        date={this.props.date}
+                        date={this.props.date}                        
                         showTime={idx === 0}
                         employee={employee}
                     />
