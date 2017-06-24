@@ -84,7 +84,7 @@ body {
 
 .catalogue-tile {
     margin-right: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 5px;    
     padding: 10px;
     width: 120px;
     height: 120px;
@@ -93,8 +93,12 @@ body {
     text-align: center;    
     border-radius: 3px;
     font-size: 16px;
-    user-select: none;
-    display: flex;
+    user-select: none;    
+}
+
+.catalogue-tile-content {
+    height: 100%;    
+    display: flex;    
     justify-content: center;
     align-items: center;
 }
@@ -108,35 +112,7 @@ body {
     font-weight: lighter;
 }
 
-.cashpoint-layout {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    height: 100%;
-    margin-left: 20px;
-    margin-top: 20px;
-    margin-right: 20px;
-    flex-wrap: wrap;
-}
-
-.cashpoint-catalogue {
-    padding: 10px;
-    width: 520px;
-    height: 650px;    
-    margin-right: 40px;
-}
-
-.cashpoint-bill {    
-    padding: 10px;
-    flex-grow: 1;
-    min-width: 200px;
-    margin-top: 20px;
-}
-
-.cashpoint-buttons {
-    /*position: absolute;
-    bottom: 60px;
-    right: 20px;*/
+.cashpoint-buttons {    
     height: 32px;
     display: flex;   
     justify-content: flex-end; 
@@ -250,4 +226,27 @@ td {
 
 .rbc-time-content {
     border-top: 1px solid #DDD;
+}
+
+.slide-enter .slide-enter-active {    
+    opacity: 1;
+    transition: opacity 1000ms ease-in;
+}
+
+.button-fade-enter {
+    opacity: 0.01;    
+}
+
+.button-fade-enter.button-fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms;
+}
+
+.button-fade-leave {
+    opacity: 1;    
+}
+
+.button-fade-leave.button-fade-leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms;
 }

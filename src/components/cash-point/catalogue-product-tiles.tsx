@@ -1,10 +1,9 @@
 import * as React from 'react'
 import { inject, observer } from 'mobx-react'
 
-import * as Glyphicon from 'react-bootstrap/lib/Glyphicon'
-
 import CatalogueTile from './catalogue-tile'
 import { ProductStore } from '../../domain/product-store'
+import { Icon } from '../shared/ui'
 
 interface CatalogueCategoryProductsTilesProps {
     category: number
@@ -42,7 +41,7 @@ export default class CatalogueCategoryProductsTiles extends React.Component<Cata
                 id={-1}
                 bgColor='#2ecc71'
                 textColor='white'
-                text={ <Glyphicon style={{fontSize: '24px'}} glyph='arrow-left' /> }
+                text={ <Icon icon='arrow-left' style={{fontSize: '24px'}} /> }
                 onClick={ this.handleBackClick }                  
 
             />

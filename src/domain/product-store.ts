@@ -68,7 +68,7 @@ export class ProductStore {
             new Product(this, 11, 'Hochstecken 60 Min', 55, undefined, 2),
         ]
     }
-
+    
     @action addCategory(category) {
         this.categories.push(category)
     }
@@ -91,6 +91,10 @@ export class ProductStore {
         return this.products.filter(product => {
             return product.name.toUpperCase().includes(searchTerm.toUpperCase())
         })
+    }
+
+    getFavoriteProducts(count: number) {
+        return this.products.filter((product, idx) => idx < 4)
     }
 
     findProductByBarcode(barcode: string) {

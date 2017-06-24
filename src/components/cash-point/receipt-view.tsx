@@ -3,7 +3,6 @@ import { observable, action } from 'mobx'
 import { inject, observer } from 'mobx-react'
 
 import * as Table from 'react-bootstrap/lib/Table'
-import * as Button from 'react-bootstrap/lib/Button'
 import * as ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import * as ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
 import * as FormControl from 'react-bootstrap/lib/FormControl'
@@ -11,13 +10,20 @@ import * as FormControl from 'react-bootstrap/lib/FormControl'
 import { Receipt, ReceiptItem } from '../../domain/receipt-store'
 import { formatPrice } from '../../utils/utils'
 import { ViewState } from '../../domain/view-state'
-import PaymentDialog from './payment-dialog'
+import { Button, Buttons } from '../shared/ui'
+import * as TransitionGroup from 'react-addons-css-transition-group'
+
+const styles = {
+    buttons: {
+        marginTop: '40px',
+    }
+}
 
 interface ReceiptItemViewProps {
     idx: number
     receiptItem: ReceiptItem
     onClick?
-    onDeleteItem?    
+    onDeleteItem?        
 }
 
 @observer
@@ -39,11 +45,9 @@ class ReceiptItemView extends React.Component<ReceiptItemViewProps, {}> {
 @observer
 class ExpandedReceiptItemView extends React.Component<ReceiptItemViewProps, {}> {
     @observable changedQuantity: number
-    @observable changedPrice: number
-
+    
     componentWillMount() {
         this.changedQuantity = this.props.receiptItem.quantity
-        this.changedPrice = this.props.receiptItem.price
     }
 
     render() { 
@@ -54,8 +58,9 @@ class ExpandedReceiptItemView extends React.Component<ReceiptItemViewProps, {}> 
                 <td>
                     <p>{ receiptItem.product.name }</p>                            
                     <ButtonToolbar>
-                        <Button bsStyle='danger' onClick={ this.handleDeleteClick }>Löschen</Button>
-                        <Button>Retoure</Button>
+                        <Button danger onClick={ this.handleDeleteClick }>Löschen</Button>
+                        <Button>Preis ändern</Button>
+                        <Button>Retoure</Button>                        
                     </ButtonToolbar>
                 </td>
                 <td className='col-right'>                    
@@ -67,15 +72,7 @@ class ExpandedReceiptItemView extends React.Component<ReceiptItemViewProps, {}> 
                         onChange={ this.handleQuantityChange }
                     />                                     
                 </td>
-                <td className='col-right'>
-                    <FormControl 
-                        onClick={(e) => {e.defaultPrevented = true}}
-                        className='pull-right number-edit' 
-                        type='number' 
-                        value={ formatPrice(this.changedPrice) } 
-                        onChange={ this.handlePriceChange }                    
-                    />
-                </td>
+                <td className='col-right'>{ formatPrice(receiptItem.price) } €</td>          
                 <td className='col-right col-highlighted'>{ receiptItem.totalPrice } €</td>                        
             </tr>             
         )
@@ -90,15 +87,6 @@ class ExpandedReceiptItemView extends React.Component<ReceiptItemViewProps, {}> 
             this.props.receiptItem.quantity = this.changedQuantity        
     }
 
-    @action handlePriceChange = (e) => {
-        if (e.target.value && e.target.value < 0)
-            return
-
-        this.changedPrice = e.target.value
-        if (this.changedPrice)
-            this.props.receiptItem.price = this.changedPrice        
-    }
-
     @action handleDeleteClick = (e) => {
         e.defaultPrevented = true
         this.props.onDeleteItem(this.props.idx)
@@ -108,6 +96,8 @@ class ExpandedReceiptItemView extends React.Component<ReceiptItemViewProps, {}> 
 interface ReceiptViewProps {
     receipt: Receipt  
     viewState?: ViewState  
+    onPay
+    canPay: boolean
 }
 
 @inject('viewState')  @observer
@@ -139,12 +129,20 @@ export default class ReceiptView extends React.Component<ReceiptViewProps, {}> {
                 <div className='total-price'>
                     { formatPrice(this.props.receipt.totalPrice) } €
                 </div>
-                <div className='cashpoint-buttons'>
-                    <ButtonToolbar>
-                        <Button onClick={ this.handleDiscardClick }>Verwerfen</Button>
-                        <Button bsStyle='primary' onClick={ this.handlePayment }>Kassieren</Button>                    
-                    </ButtonToolbar>
-                </div>
+                <Buttons rightAligned style={styles.buttons}>
+                    <TransitionGroup
+                        transitionName='button-fade'
+                        transitionEnterTimeout={300}
+                        transitionLeaveTimeout={300}
+                    >
+                        { this.props.canPay &&
+                            <ButtonToolbar key={1}>
+                                <Button onClick={ this.handleDiscardClick }>Verwerfen</Button>
+                                <Button primary onClick={ this.props.onPay }>Kassieren</Button>                                
+                            </ButtonToolbar>
+                        }
+                    </TransitionGroup>
+                </Buttons>
             </div>
         )
     }
@@ -164,10 +162,6 @@ export default class ReceiptView extends React.Component<ReceiptViewProps, {}> {
     @action handleItemDelete(idx) {
         this.props.receipt.deleteItem(idx)
         this.selectedRow = -1
-    }
-
-    @action handlePayment = () => {
-        this.props.viewState.showModal('Kassieren', <PaymentDialog amount={this.props.receipt.totalPrice} onSubmit={ this.handleSubmit } />)
     }
 
     handleSubmit = () => {

@@ -5,14 +5,12 @@ import * as BigCalendar from 'react-big-calendar'
 import * as moment from 'moment'
 import DatePicker from 'react-datepicker'
 
-import * as ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
-import * as Button from 'react-bootstrap/lib/Button'
 import * as ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
-import * as Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import * as FormControl from 'react-bootstrap/lib/FormControl'
 
 import DayCalendar from './day-calendar'
 import WeekCalendar from './week-calendar'
+import { Toolbar, Buttons, Button, Icon } from '../shared/ui'
 
 const styles = {
     datepicker: {
@@ -38,35 +36,31 @@ export default class Calendar extends React.Component<CalendarProps, {}> {
     render() {       
         return (         
             <div>                 
-                <div className='toolbar'>                    
-                    <div>                      
-                        <ButtonToolbar>
-                            <ButtonGroup>
-                                <Button active={ this.calendarMode === CalendarMode.Day } onClick={ this.handleDayClick }>Tag</Button>
-                                <Button active={ this.calendarMode === CalendarMode.Week } onClick= { this.handleWeekClick }>Woche</Button>                               
-                            </ButtonGroup>
+                <Toolbar>                    
+                    <Buttons>
+                        <ButtonGroup>
+                            <Button active={ this.calendarMode === CalendarMode.Day } onClick={ this.handleDayClick }>Tag</Button>
+                            <Button active={ this.calendarMode === CalendarMode.Week } onClick= { this.handleWeekClick }>Woche</Button>                               
+                        </ButtonGroup>
 
-                            { this.calendarMode === CalendarMode.Day &&                                                
-                                <DatePicker                                    
-                                    className='date-picker'
-                                    style={styles.datepicker}
-                                    selected={moment()}
-                                />                            
-                            }
+                        { this.calendarMode === CalendarMode.Day &&                                                
+                            <DatePicker                                    
+                                className='date-picker'
+                                style={styles.datepicker}
+                                selected={moment()}
+                            />                            
+                        }
 
-                            <ButtonGroup>
-                                <Button><Glyphicon glyph='chevron-left' /></Button>                                                                                                       
-                                <Button><Glyphicon glyph='chevron-right' /></Button>                                                    
-                                <Button><Glyphicon glyph='plus' /></Button>                                                                                    
-                            </ButtonGroup>
-                        </ButtonToolbar>
-                    </div>
-                    <div>
-                        <ButtonToolbar>
-                            <Button bsStyle='primary'>Neuer Termin</Button>
-                        </ButtonToolbar>
-                    </div>
-                </div>
+                        <ButtonGroup>
+                            <Button><Icon icon='chevron-left' /></Button>                                                                                                       
+                            <Button><Icon icon='chevron-right' /></Button>                                                    
+                            <Button><Icon icon='plus' /></Button>                                                                                    
+                        </ButtonGroup>
+                    </Buttons>                
+                    <Buttons>
+                        <Button primary>Neuer Termin</Button>
+                    </Buttons>                
+                </Toolbar>
 
                 { this.getCalendarContent() }                
             </div>

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { inject, observer } from 'mobx-react'
 
-import * as Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import * as Navbar from 'react-bootstrap/lib/Navbar'
 import * as Nav from 'react-bootstrap/lib/Nav'
 import * as NavItem from 'react-bootstrap/lib/NavItem'
@@ -9,15 +8,23 @@ import * as NavDropdown from 'react-bootstrap/lib/NavDropdown'
 import * as MenuItem from 'react-bootstrap/lib/MenuItem'
 
 import { View, ViewState } from '../domain/view-state'
-
-interface HeaderProps {
-    viewState?: ViewState
-}
+import { Icon } from './shared/ui'
 
 enum LogoMenu {
     Settings,
     Help,
     Logout,
+}
+
+const styles = {
+    headerIcon: {
+        fontSize: '16px',
+        marginRight: '8px',
+    }
+}
+
+interface HeaderProps {
+    viewState?: ViewState
 }
 
 @inject('viewState') @observer
@@ -37,11 +44,11 @@ export default class Header extends React.Component<HeaderProps, {}> {
                 </Nav>
 
                 <Nav activeKey={ this.props.viewState.currentView } onSelect={ this.handleViewSelect }>
-                    <NavItem eventKey={ View.CashPoint }><Glyphicon className="header-icon" glyph="shopping-cart" /><span className='header-text'>Kasse</span></NavItem>
-                    <NavItem eventKey={ View.Calendar }><Glyphicon className="header-icon" glyph="calendar" /><span className='header-text'>Kalender</span></NavItem>                    
-                    <NavItem eventKey={ View.Customers }><Glyphicon className="header-icon" glyph="user" /><span className='header-text'>Kunden</span></NavItem>
-                    <NavItem eventKey={ View.Inventory }><i className="header-icon fa fa-cubes" aria-hidden="true"></i><span className='header-text'>Bestand</span></NavItem>
-                    <NavItem eventKey={ View.Archive }><i className="header-icon fa fa-book" aria-hidden="true"></i><span className='header-text'>Archiv</span></NavItem>
+                    <NavItem eventKey={ View.CashPoint }><Icon icon='shopping-cart' style={styles.headerIcon} /><span className='header-text'>Kasse</span></NavItem>
+                    <NavItem eventKey={ View.Calendar }><Icon icon='calendar' style={styles.headerIcon} /><span className='header-text'>Kalender</span></NavItem>                    
+                    <NavItem eventKey={ View.Customers }><Icon icon='user' style={styles.headerIcon} /><span className='header-text'>Kunden</span></NavItem>
+                    <NavItem eventKey={ View.Inventory }><Icon fontawesome icon='cubes' style={styles.headerIcon} /><span className='header-text'>Bestand</span></NavItem>
+                    <NavItem eventKey={ View.Archive }><Icon fontawesome icon='book' style={styles.headerIcon} /><span className='header-text'>Archiv</span></NavItem>
                 </Nav>                
             </Navbar>            
         )
