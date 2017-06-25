@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { observer, inject } from 'mobx-react'
 
-import CatalogueTile from './catalogue-tile'
+import { CatalogueProductTile, CatalogueBackTile } from './catalogue-tile'
 import { ProductStore } from '../../domain/product-store'
 import { Icon } from '../shared/ui'
 
@@ -17,34 +17,17 @@ export default class SearchResultsTiles extends React.Component<SearchResultsTil
     render() {        
         const products = this.props.productStore.searchProducts(this.props.searchTerm)
 
-        let tiles = products.map(product => {
+        let tiles = products.map((product, idx) => {
             return (
-                <CatalogueTile
-                    key={product.id}                    
-                    id={product.id}
-                    bgColor='#2c3e50'
-                    textColor='white'
-                    text={ 
-                        <div>                            
-                            <p className='catalogue-text'>{ product.name }</p> 
-                            <p className='catalogue-price'>{ product.price + ' €' }</p>
-                        </div>
-                    }
+                <CatalogueProductTile
+                    key={idx}                    
+                    product={product}                    
                     onClick={ this.handleProductClick }                
                 />
             )
         })
 
-        const backTile = 
-            <CatalogueTile
-                key={-1}
-                id={-1}
-                bgColor='#2ecc71'
-                textColor='white'
-                text={ <Icon style={{fontSize: '24px'}} icon='arrow-left' /> }
-                onClick={ this.handleBackClick }                  
-
-            />
+        const backTile = <CatalogueBackTile onClick={ this.handleBackClick } />                
 
         tiles = [backTile, ...tiles]
          
@@ -55,8 +38,8 @@ export default class SearchResultsTiles extends React.Component<SearchResultsTil
         )
     }
 
-    handleProductClick = (productId) => {
-        this.props.onProductSelected(productId)
+    handleProductClick = (product) => {
+        this.props.onProductSelected(product)
     }
 
     handleBackClick = (idx) => {

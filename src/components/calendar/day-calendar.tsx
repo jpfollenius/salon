@@ -2,6 +2,8 @@ import * as React from 'react'
 import { observer } from 'mobx-react'
 import * as BigCalendar from 'react-big-calendar'
 
+import { Appointment, Appointments } from '../../domain/appointment-store'
+
 const calendarFormats = {
     dateFormat: 'L',
 
@@ -28,6 +30,8 @@ const calendarMessages = {
 
 interface DayCalendarProps {
     date: Date
+    appointments: Appointments
+    onNewAppointment
 }
 
 const styles = {
@@ -48,11 +52,17 @@ interface DayCalendarColumnProps {
     employee: string
     showTime: boolean
     date: Date
-
+    appointments: Appointments
+    onNewAppointment
 }
 
 @observer
 class DayCalendarColumn extends React.Component<DayCalendarColumnProps, {}> {    
+    componentWillUnmount() {
+        console.log('Unmount')
+        this.props.appointments.release()
+    }
+
     render() {
         const className = this.props.showTime ? 'day-calendar' : 'day-calendar calendar-notime'
 
@@ -62,7 +72,7 @@ class DayCalendarColumn extends React.Component<DayCalendarColumnProps, {}> {
                     { this.props.employee }
                 </div>
                 <BigCalendar                         
-                    events={[]} 
+                    events={this.filterAppointmentsByEmployee()} 
                     date={this.props.date}
                     step={15}
                     view='day'                            
@@ -72,12 +82,20 @@ class DayCalendarColumn extends React.Component<DayCalendarColumnProps, {}> {
                     toolbar={false} 
                     startAccessor='start' 
                     endAccessor='end' 
+                    onSelectSlot={this.slotSelected}
                     min={new Date(2017, 6, 18, 8, 0, 0)}
                     max={new Date(2017, 6, 18, 19, 0, 0)}
                 />
             </div>
-
         )
+    }
+
+    filterAppointmentsByEmployee() {
+        return this.props.appointments.filterByEmployee(this.props.employee)
+    }
+
+    slotSelected = (slotInfo) => {
+        this.props.onNewAppointment(slotInfo.start, slotInfo.end, this.props.employee)
     }
 }
 
@@ -91,13 +109,19 @@ export default class DayCalendar extends React.Component<DayCalendarProps, {}> {
                 { employees.map((employee, idx) => 
                     <DayCalendarColumn 
                         key={idx}
+                        appointments={this.props.appointments}
                         date={this.props.date}                        
                         showTime={idx === 0}
                         employee={employee}
+                        onNewAppointment={this.handleNewAppointment}
                     />
                 )}
                            
             </div>
         )
+    }
+
+    handleNewAppointment = (start, end, employee) => {
+        this.props.onNewAppointment(start, end,  employee)
     }
 }

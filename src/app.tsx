@@ -6,6 +6,8 @@ import * as firebase from 'firebase'
 import Main from './components/main'
 import viewState from './domain/view-state'
 import productStore from './domain/product-store'
+import appointmentStore from './domain/appointment-store'
+import catalogueStore from './domain/catalogue-store'
 import * as BigCalendar from 'react-big-calendar'
 import * as moment from 'moment'
 
@@ -45,13 +47,17 @@ autorun(() => {
     if (viewState.currentUserId) {
         viewState.startLoading()
         productStore.load(viewState.currentUserId)   
-            .then(viewState.finishedLoading.bind(viewState))
+            .then(() => appointmentStore.load(viewState.currentUserId)
+            .then(() => catalogueStore.load(viewState.currentUserId)
+            .then(viewState.finishedLoading.bind(viewState))))
     }        
 })
 
 const stores = {
     viewState,
-    productStore,    
+    productStore, 
+    appointmentStore,
+    catalogueStore   
 }
 
 render(

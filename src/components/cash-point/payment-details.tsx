@@ -10,15 +10,17 @@ import commonStyles from '../../styles'
 
 const styles = {
     price: {        
-        fontSize: '24px',                
+        fontSize: '16px',                
+    },
+    remaingAmount: {
+        fontSize: '20px'
     },
     button: {
-        width: '100px',
-        height: '48px',      
+        width: '100px',    
+        marginRight: '10px',
     },
     amountInput: {
-        fontSize: '16px',
-        height: '48px',  
+        fontSize: '16px',  
     },
     separatorRow: {
         height: '20px',
@@ -49,7 +51,7 @@ export default class PaymentDetails extends React.Component<PaymentDialogProps, 
             <div>  
                 <h1>Kassieren</h1>                                          
 
-                <Table condensed> 
+                <table> 
                     <tbody>
                         <tr>
                             <td>Summe</td>
@@ -61,15 +63,14 @@ export default class PaymentDetails extends React.Component<PaymentDialogProps, 
                         </tr>                        
                         <tr>
                             <td>Restbetrag</td>
-                            <td style={styles.price}>{formatPrice(this.remainingAmount)} €</td>
+                            <td style={styles.remaingAmount}>{formatPrice(this.remainingAmount)} €</td>
                         </tr>  
 
                         <tr style={styles.separatorRow}></tr>
 
                         <tr>
                             <td>
-                                <Button 
-                                    primary                                                                        
+                                <Button                                                                      
                                     style={styles.button} 
                                     onClick={ this.handleCashClick }
                                 >
@@ -86,8 +87,7 @@ export default class PaymentDetails extends React.Component<PaymentDialogProps, 
                         </tr>
                         <tr>
                             <td>
-                                <Button 
-                                    primary                                    
+                                <Button                                  
                                     style={styles.button} 
                                     onClick={ this.handleDebitClick }
                                 >
@@ -103,9 +103,9 @@ export default class PaymentDetails extends React.Component<PaymentDialogProps, 
                             </td>
                         </tr>
                     </tbody>
-                </Table>             
+                </table>             
                 
-                <Buttons rightAligned style={styles.buttons}>
+                <Buttons style={styles.buttons}>
                     <Button onClick={ this.handleBack }>Zurück</Button>
                     <Button success onClick={ this.handleSubmit }>Bezahlt</Button>                    
                 </Buttons>        

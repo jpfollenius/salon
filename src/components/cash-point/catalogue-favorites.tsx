@@ -2,7 +2,7 @@ import * as React from 'react'
 import { observer, inject } from 'mobx-react'
 
 import { ProductStore } from '../../domain/product-store'
-import CatalogueTile from './catalogue-tile'
+import { CatalogueProductTile } from './catalogue-tile'
 
 const styles = {
     layout: {
@@ -24,20 +24,12 @@ export default class CatalogueFavorites extends React.Component<CatalogueFavorit
     render() {
         const favoriteProducts = this.props.productStore.getFavoriteProducts(4)
 
-        let tiles = favoriteProducts.map(product => {
+        let tiles = favoriteProducts.map((product, idx) => {
             return (
-                <CatalogueTile
+                <CatalogueProductTile                    
+                    key={idx}                    
+                    product={product}
                     showFavorite
-                    key={product.id}                    
-                    id={product.id}
-                    bgColor='#2c3e50'
-                    textColor='white'
-                    text={ 
-                        <div>                            
-                            <p className='catalogue-text'>{ product.name }</p> 
-                            <p className='catalogue-price'>{ product.price + ' €' }</p>
-                        </div>
-                    }
                     onClick={ this.props.onProductSelected }                
                 />
             )

@@ -1,50 +1,48 @@
 import * as React from 'react'
+import { autorun, observable, action } from 'mobx'
 import { inject, observer } from 'mobx-react'
 
-import CatalogueTile from './catalogue-tile'
+import { CatalogueProductTile, CatalogueBackTile } from './catalogue-tile'
 import { ProductStore } from '../../domain/product-store'
 import { Icon } from '../shared/ui'
+import { CatalogueStore, CatalogueCategory, CatalogueItem } from '../../domain/catalogue-store'
 
 interface CatalogueCategoryProductsTilesProps {
-    category: number
+    category: CatalogueCategory
     onNavigateBack
     onProductSelected
     productStore?: ProductStore
+    catalogueStore?: CatalogueStore
 }
 
-@inject('productStore') @observer
-export default class CatalogueCategoryProductsTiles extends React.Component<CatalogueCategoryProductsTilesProps, {}> {    
-    render() {      
-        const products = this.props.productStore.getProducts(this.props.category)
+@inject('productStore') @inject('catalogueStore') @observer
+export default class CatalogueCategoryProductsTiles extends React.Component<CatalogueCategoryProductsTilesProps, {}> {   
+    @observable items: CatalogueItem[] = []
 
-        let tiles = products.map(product => {
+    @action setItems(items: CatalogueItem[]) {
+        this.items = items
+    }
+
+    componentWillMount() {
+        autorun(() => {
+            if (this.props.category) {                
+                this.props.catalogueStore.getCategoryContent(this.props.category).then(this.setItems.bind(this)) 
+            }
+        })        
+    }
+
+    render() {   
+        let tiles = this.items.map((item, idx) => {
             return (
-                <CatalogueTile
-                    key={product.id}                    
-                    id={product.id}
-                    bgColor='#2c3e50'
-                    textColor='white'
-                    text={ 
-                        <div>
-                            <p className='catalogue-text'>{ product.name }</p> 
-                            <p className='catalogue-price'>{ product.price + ' €' }</p>
-                        </div>
-                    }
+                <CatalogueProductTile
+                    key={idx}    
+                    product={item.product}                                    
                     onClick={ this.handleProductClick }                
                 />
             )
         })
 
-        const backTile = 
-            <CatalogueTile
-                key={-1}
-                id={-1}
-                bgColor='#2ecc71'
-                textColor='white'
-                text={ <Icon icon='arrow-left' style={{fontSize: '24px'}} /> }
-                onClick={ this.handleBackClick }                  
-
-            />
+        const backTile = <CatalogueBackTile onClick={ this.handleBackClick } />
 
         tiles = [backTile, ...tiles]
          
@@ -55,11 +53,11 @@ export default class CatalogueCategoryProductsTiles extends React.Component<Cata
         )
     }
 
-    handleProductClick = (productId) => {
-        this.props.onProductSelected(productId)
+    handleProductClick = (product) => {        
+        this.props.onProductSelected(product)
     }
 
-    handleBackClick = (idx) => {
+    handleBackClick = () => {
         this.props.onNavigateBack()
     }
 }

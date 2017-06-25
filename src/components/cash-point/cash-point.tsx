@@ -107,11 +107,8 @@ export default class CashPoint extends React.Component<CashPointProps, {}> {
         )
     }
 
-    handleProductSelected = (productId) => {
-        const store = this.props.productStore
+    handleProductSelected = (product) => {        
         const receipt = this.props.viewState.currentReceipt
-        const product = store.getProduct(productId)
-
         receipt.addProduct(product)
     }
 

@@ -27,7 +27,7 @@ const calendarMessages = {
 }
 
 interface WeekCalendarProps {
-
+    date: Date
 }
 
 @observer
@@ -37,6 +37,7 @@ export default class WeekCalendar extends React.Component<WeekCalendarProps, {}>
             <div>
                 <BigCalendar 
                     events={[]} 
+                    date={this.props.date}
                     view='week'                            
                     selectable 
                     step={15}
