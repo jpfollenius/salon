@@ -8,6 +8,7 @@ import PaymentDetails from './payment-details'
 import { Button, Buttons, Toolbar } from '../shared/ui'
 import { ViewState } from '../../domain/view-state'
 import { ProductStore } from '../../domain/product-store'
+import { ReceiptStore } from '../../domain/receipt-store'
 
 const styles = {
     layout: {
@@ -57,9 +58,10 @@ const styles = {
 interface CashPointProps {
     viewState?: ViewState
     productStore?: ProductStore
+    receiptStore?: ReceiptStore
 }
 
-@inject('viewState', 'productStore') @observer
+@inject('viewState', 'productStore', 'receiptStore') @observer
 export default class CashPoint extends React.Component<CashPointProps, {}> {
     @observable isInPayment
 
@@ -117,6 +119,9 @@ export default class CashPoint extends React.Component<CashPointProps, {}> {
     }
 
     @action handlePaymentFinished = () => {
+        const store = this.props.receiptStore
+        console.log('add receipt ', this.props.viewState.currentReceipt)
+        store.addReceipt(this.props.viewState.currentReceipt)        
         this.props.viewState.currentReceipt.clear()
         this.isInPayment = false
     }

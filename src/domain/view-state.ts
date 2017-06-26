@@ -27,7 +27,7 @@ export class ViewState {
     
     constructor() {        
         this.currentView = View.CashPoint        
-        this.currentReceipt = new Receipt()
+        this.currentReceipt = new Receipt(undefined)
         this.load()
     }      
 

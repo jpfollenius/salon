@@ -10,6 +10,7 @@ import { View, ViewState } from '../domain/view-state'
 import { ProductStore } from '../domain/product-store'
 import { AppointmentStore } from '../domain/appointment-store'
 import { CatalogueStore } from '../domain/catalogue-store'
+import { ReceiptStore } from '../domain/receipt-store'
 import CashPoint from './cash-point/cash-point'
 import Calendar from './calendar/calendar'
 
@@ -18,6 +19,7 @@ interface MainProps {
     productStore: ProductStore
     appointmentStore: AppointmentStore
     catalogueStore: CatalogueStore
+    receiptStore: ReceiptStore
 }
 
 @observer
@@ -43,6 +45,7 @@ export default class Main extends React.Component<MainProps, {}> {
                 viewState={ this.props.viewState }
                 appointmentStore= { this.props.appointmentStore }
                 catalogueStore={ this.props.catalogueStore }
+                receiptStore={ this.props.receiptStore }
             >         
                 { !this.props.viewState.isLoading
                     ?
