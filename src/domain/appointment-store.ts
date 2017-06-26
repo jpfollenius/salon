@@ -17,27 +17,28 @@ export class Appointment {
     }
 }
 
-export class Appointments {
+export class Appointments {            
     ref
-    startDate: Date
-    endDate: Date
+    @observable appointments: Appointment[] = []    
 
-    @observable appointments: Appointment[] = []
-
-    constructor(appointmentsRef, startDate: Date, endDate: Date) {
+    constructor(appointmentsRef) {
       this.ref = appointmentsRef
-      this.startDate = startDate
-      this.endDate = endDate  
+    }
 
-      this.ref.on('child_added', (child) => {
-        console.log('child_added: ', child.val())
-        this.doAdd(child.key, child.val())
-      })
+    setDateRange(from: Date, to: Date) {
+        this.release()
 
-      this.ref.on('child_removed', (child) => {
-          console.log('child_removed: ', child.key)
-          this.doRemove(child.key)
-      })
+        const fromDate = moment(from).startOf('day').toDate()
+        const toDate = moment (to).endOf('day').toDate()
+        const filteredRef = this.ref.startAt(fromDate.getTime()).endAt(toDate.getTime())
+
+        filteredRef.on('child_added', (child) => {        
+            this.doAdd(child.key, child.val())
+        })
+
+        filteredRef.on('child_removed', (child) => {          
+            this.doRemove(child.key)
+        })
     }
 
     @action doAdd(key, child) {
@@ -54,7 +55,12 @@ export class Appointments {
         return this.appointments.filter(appointment => appointment.employee === employee)
     }
 
-    release() {
+    getAll(): Appointment[] {
+        return this.appointments.slice()
+    }
+
+    @action release() {
+        this.appointments = []
         this.ref.off()        
     }
 }
@@ -82,14 +88,9 @@ export class AppointmentStore {
         }, appointment.start.getTime())
     }
 
-    getAppointments(from: Date, to: Date): Appointments {        
-        console.log(moment(from).startOf('day').toDate().getTime())
-        console.log(moment(to).endOf('day').toDate().getTime())        
+    createAppointments(): Appointments {                
         const ref = firebase.database().ref(this.userId + '/appointments')            
-            .startAt(moment(from).startOf('day').toDate().getTime())
-            .endAt(moment (to).endOf('day').toDate().getTime())
-
-        return new Appointments(ref, from, to)
+        return new Appointments(ref)
     } 
 }
 

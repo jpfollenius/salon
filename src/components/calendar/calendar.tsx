@@ -35,22 +35,6 @@ interface CalendarProps {
 export default class Calendar extends React.Component<CalendarProps, {}> {
     @observable calendarMode = CalendarMode.Day
     @observable currentDate = moment().toDate()
-    @observable appointments: Appointments
-
-    componentWillMount() {
-        autorun(() => {
-            this.reloadAppointments(this.currentDate, this.currentDate)            
-        })
-    }
-
-    @action reloadAppointments(from, to) {
-        if (this.appointments) {
-            console.log('RELEASE')
-            this.appointments.release()
-        }
-
-        this.appointments = this.props.appointmentStore.getAppointments(this.currentDate, this.currentDate)
-    }
     
     render() {       
         return (         
@@ -105,8 +89,7 @@ export default class Calendar extends React.Component<CalendarProps, {}> {
         switch (this.calendarMode) {
             case CalendarMode.Day:
                 return <DayCalendar 
-                            date={this.currentDate} 
-                            appointments={this.appointments}
+                            date={this.currentDate}                             
                             onNewAppointment={this.handleNewAppointment}
                         />
             case CalendarMode.Week:

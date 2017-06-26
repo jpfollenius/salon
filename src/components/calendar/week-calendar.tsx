@@ -1,6 +1,9 @@
 import * as React from 'react'
-import { observer } from 'mobx-react'
+import { observable, autorun } from 'mobx'
+import { inject, observer } from 'mobx-react'
 import * as BigCalendar from 'react-big-calendar'
+import * as moment from 'moment'
+import { Appointment, Appointments, AppointmentStore } from '../../domain/appointment-store'
 
 const calendarFormats = {
     dateFormat: 'L',
@@ -28,15 +31,32 @@ const calendarMessages = {
 
 interface WeekCalendarProps {
     date: Date
+    appointmentStore?: AppointmentStore
 }
 
-@observer
+@inject('appointmentStore') @observer
 export default class WeekCalendar extends React.Component<WeekCalendarProps, {}> {
+    @observable appointments: Appointments
+
+    componentWillMount() {
+        this.appointments = this.props.appointmentStore.createAppointments()
+
+        autorun(() => {
+            const weekStart = moment(this.props.date).startOf('week').toDate()
+            const weekEnd = moment(this.props.date).endOf('week').toDate()
+            this.appointments.setDateRange(weekStart, weekEnd)
+        })
+    }
+
+    componentWillUnmount() {
+        this.appointments.release()
+    }
+
     render() {
         return (
             <div>
                 <BigCalendar 
-                    events={[]} 
+                    events={this.appointments.getAll()} 
                     date={this.props.date}
                     view='week'                            
                     selectable 

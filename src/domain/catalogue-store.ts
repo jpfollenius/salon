@@ -124,8 +124,7 @@ export class CatalogueStore {
             
             ref.once('value', (snapshot) => {            
                 for (let key in snapshot.val()) {
-                    const productId = snapshot.val()[key].id
-                    console.log('find product ', productId)
+                    const productId = snapshot.val()[key].id                    
                     const product = productStore.getProduct(productId)
                     if (product) 
                         items.push(CatalogueItem.forProduct(product))                    

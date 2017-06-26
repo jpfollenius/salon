@@ -1,8 +1,9 @@
 import * as React from 'react'
-import { observer } from 'mobx-react'
+import { autorun, observable } from 'mobx'
+import { inject, observer } from 'mobx-react'
 import * as BigCalendar from 'react-big-calendar'
 
-import { Appointment, Appointments } from '../../domain/appointment-store'
+import { Appointment, Appointments, AppointmentStore } from '../../domain/appointment-store'
 
 const calendarFormats = {
     dateFormat: 'L',
@@ -28,12 +29,6 @@ const calendarMessages = {
     showMore: function() {}
 }
 
-interface DayCalendarProps {
-    date: Date
-    appointments: Appointments
-    onNewAppointment
-}
-
 const styles = {
     layout: {
         display: 'flex'
@@ -57,12 +52,7 @@ interface DayCalendarColumnProps {
 }
 
 @observer
-class DayCalendarColumn extends React.Component<DayCalendarColumnProps, {}> {    
-    componentWillUnmount() {
-        console.log('Unmount')
-        this.props.appointments.release()
-    }
-
+class DayCalendarColumn extends React.Component<DayCalendarColumnProps, {}> {        
     render() {
         const className = this.props.showTime ? 'day-calendar' : 'day-calendar calendar-notime'
 
@@ -99,8 +89,28 @@ class DayCalendarColumn extends React.Component<DayCalendarColumnProps, {}> {
     }
 }
 
-@observer
+interface DayCalendarProps {
+    date: Date
+    onNewAppointment
+    appointmentStore?: AppointmentStore
+}
+
+@inject('appointmentStore') @observer
 export default class DayCalendar extends React.Component<DayCalendarProps, {}> {
+    @observable appointments: Appointments
+
+    componentWillMount() {
+        this.appointments = this.props.appointmentStore.createAppointments()
+
+        autorun(() => {
+            this.appointments.setDateRange(this.props.date, this.props.date)
+        })
+    }
+
+    componentWillUnmount() {
+        this.appointments.release()
+    }
+
     render() {
         const employees = ['Seb', 'Cora', 'Anna']
 
@@ -109,7 +119,7 @@ export default class DayCalendar extends React.Component<DayCalendarProps, {}> {
                 { employees.map((employee, idx) => 
                     <DayCalendarColumn 
                         key={idx}
-                        appointments={this.props.appointments}
+                        appointments={this.appointments}
                         date={this.props.date}                        
                         showTime={idx === 0}
                         employee={employee}
