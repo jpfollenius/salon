@@ -25,6 +25,11 @@ export class Appointments {
       this.ref = appointmentsRef
     }
 
+    @action release() {
+        this.appointments = []
+        this.ref.off()        
+    }
+
     setDateRange(from: Date, to: Date) {
         this.release()
 
@@ -41,13 +46,13 @@ export class Appointments {
         })
     }
 
-    @action doAdd(key, child) {
+    @action private doAdd(key, child) {
         const appointment = new Appointment(child.title, new Date(child.start), new Date(child.end), child.employee)
         appointment.key = key
         this.appointments.push(appointment)
     }
 
-    @action doRemove(key) {
+    @action private doRemove(key) {
         this.appointments = this.appointments.filter(appointment => appointment.key !== key)
     }
 
@@ -57,11 +62,6 @@ export class Appointments {
 
     getAll(): Appointment[] {
         return this.appointments.slice()
-    }
-
-    @action release() {
-        this.appointments = []
-        this.ref.off()        
     }
 }
 

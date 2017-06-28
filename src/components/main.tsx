@@ -13,6 +13,7 @@ import { CatalogueStore } from '../domain/catalogue-store'
 import { ReceiptStore } from '../domain/receipt-store'
 import CashPoint from './cash-point/cash-point'
 import Calendar from './calendar/calendar'
+import Archive from './archive/archive'
 
 interface MainProps {
     viewState: ViewState
@@ -89,7 +90,7 @@ export default class Main extends React.Component<MainProps, {}> {
             case View.Inventory:
                 return <p>Bestand</p>
             case View.Archive:
-                return <p>Archiv</p>
+                return <Archive />
             case View.Settings:
                 return <p>Settings</p>            
         }

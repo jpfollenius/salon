@@ -12,14 +12,20 @@ export enum View {
     Settings,
 }
 
+class ModalInfo {
+    show: boolean
+    title: string
+    content: JSX.Element
+}
+
 export class ViewState {    
     @observable isAuthenticated: boolean            
-    @observable currentUserId
+    @observable currentUserId: string
     @observable currentView: View
     @observable isLoading: boolean
-    @observable currentReceipt
+    @observable currentReceipt: Receipt
 
-    @observable modal = {
+    @observable modal: ModalInfo = {
         show: false,    
         title: null,            
         content: null,                
@@ -50,7 +56,7 @@ export class ViewState {
         this.currentView = view
     }
 
-    @action login(userId) {        
+    @action login(userId: string) {        
         this.currentUserId = userId
         this.isAuthenticated = true        
     }

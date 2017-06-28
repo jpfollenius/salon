@@ -119,8 +119,7 @@ export default class CashPoint extends React.Component<CashPointProps, {}> {
     }
 
     @action handlePaymentFinished = () => {
-        const store = this.props.receiptStore
-        console.log('add receipt ', this.props.viewState.currentReceipt)
+        const store = this.props.receiptStore        
         store.addReceipt(this.props.viewState.currentReceipt)        
         this.props.viewState.currentReceipt.clear()
         this.isInPayment = false

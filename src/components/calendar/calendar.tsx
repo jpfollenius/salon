@@ -3,7 +3,6 @@ import { observable, action, autorun } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import * as BigCalendar from 'react-big-calendar'
 import * as moment from 'moment'
-import DatePicker from 'react-datepicker'
 
 import * as ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import * as FormControl from 'react-bootstrap/lib/FormControl'
@@ -12,7 +11,7 @@ import * as MenuItem from 'react-bootstrap/lib/MenuItem'
 
 import DayCalendar from './day-calendar'
 import WeekCalendar from './week-calendar'
-import { Toolbar, Buttons, Button, Icon } from '../shared/ui'
+import { Toolbar, Buttons, Button, Icon, DatePicker } from '../shared/ui'
 import { Appointment, Appointments, AppointmentStore } from '../../domain/appointment-store'
 
 const styles = {
@@ -47,11 +46,8 @@ export default class Calendar extends React.Component<CalendarProps, {}> {
                         </ButtonGroup>
 
                         { this.calendarMode === CalendarMode.Day &&                                                
-                            <DatePicker                                    
-                                className='date-picker'
-                                style={styles.datepicker}
-                                dateFormat='dd, l'
-                                selected={moment(this.currentDate)}
+                            <DatePicker                                                                    
+                                selectedDate={moment(this.currentDate).toDate()}
                                 onChange={this.dateChanged}
                             />                            
                         }
