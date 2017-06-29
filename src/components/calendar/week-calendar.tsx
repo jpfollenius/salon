@@ -37,11 +37,12 @@ interface WeekCalendarProps {
 @inject('appointmentStore') @observer
 export default class WeekCalendar extends React.Component<WeekCalendarProps, {}> {
     @observable appointments: Appointments
+    cleanupAutorun
 
     componentWillMount() {
         this.appointments = this.props.appointmentStore.createAppointments()
 
-        autorun(() => {
+        this.cleanupAutorun = autorun(() => {
             const weekStart = moment(this.props.date).startOf('week').toDate()
             const weekEnd = moment(this.props.date).endOf('week').toDate()
             this.appointments.setDateRange(weekStart, weekEnd)
@@ -50,6 +51,7 @@ export default class WeekCalendar extends React.Component<WeekCalendarProps, {}>
 
     componentWillUnmount() {
         this.appointments.release()
+        this.cleanupAutorun()
     }
 
     render() {

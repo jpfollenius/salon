@@ -18,17 +18,22 @@ interface CatalogueCategoryProductsTilesProps {
 @inject('productStore') @inject('catalogueStore') @observer
 export default class CatalogueCategoryProductsTiles extends React.Component<CatalogueCategoryProductsTilesProps, {}> {   
     @observable items: CatalogueItem[] = []
+    cleanupAutorun
 
     @action setItems(items: CatalogueItem[]) {
         this.items = items
     }
 
     componentWillMount() {
-        autorun(() => {
+        this.cleanupAutorun = autorun(() => {
             if (this.props.category) {                
                 this.props.catalogueStore.getCategoryContent(this.props.category).then(this.setItems.bind(this)) 
             }
         })        
+    }
+
+    componentWillUnmount() {
+        this.cleanupAutorun()
     }
 
     render() {   

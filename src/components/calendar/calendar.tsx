@@ -15,9 +15,8 @@ import { Toolbar, Buttons, Button, Icon, DatePicker } from '../shared/ui'
 import { Appointment, Appointments, AppointmentStore } from '../../domain/appointment-store'
 
 const styles = {
-    datepicker: {
-        height: '36px',
-        marginLeft: '10px',
+    modeButtons: {        
+        marginRight: '10px',
     }
 }
 
@@ -40,7 +39,7 @@ export default class Calendar extends React.Component<CalendarProps, {}> {
             <div>                 
                 <Toolbar>                    
                     <Buttons>
-                        <ButtonGroup>
+                        <ButtonGroup style={styles.modeButtons}>
                             <Button active={ this.calendarMode === CalendarMode.Day } onClick={ this.handleDayClick }>Tag</Button>
                             <Button active={ this.calendarMode === CalendarMode.Week } onClick= { this.handleWeekClick }>Woche</Button>                               
                         </ButtonGroup>
@@ -48,11 +47,11 @@ export default class Calendar extends React.Component<CalendarProps, {}> {
                         { this.calendarMode === CalendarMode.Day &&                                                
                             <DatePicker                                                                    
                                 selectedDate={moment(this.currentDate).toDate()}
-                                onChange={this.dateChanged}
+                                onChange={this.dateChanged}                                
                             />                            
                         }
 
-                        <ButtonGroup>
+                       {/* <ButtonGroup>
                             <Button onClick={ this.gotoToday }>Heute</Button>
                             <Button onClick={ this.goPrevious }><Icon icon='chevron-left' /></Button>                                                                                                       
                             <Button onClick={ this.goNext }><Icon icon='chevron-right' /></Button>                                                    
@@ -66,7 +65,7 @@ export default class Calendar extends React.Component<CalendarProps, {}> {
                                 <MenuItem eventKey={7}>+ 7 Wochen</MenuItem>
                                 <MenuItem eventKey={8}>+ 8 Wochen</MenuItem>
                             </DropdownButton>                                                                                    
-                        </ButtonGroup>
+                        </ButtonGroup>*/}
                     </Buttons>                
                     <Buttons>
                         <Button primary>Neuer Termin</Button>

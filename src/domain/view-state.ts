@@ -1,7 +1,7 @@
 import { observable, computed, action, autorunAsync, toJS, extendObservable } from 'mobx'
 import * as firebase from 'firebase'
 
-import { Receipt } from './receipt-store'
+import receiptStore, { Receipt, ReceiptStore } from './receipt-store'
 
 export enum View {
     CashPoint,
@@ -31,9 +31,9 @@ export class ViewState {
         content: null,                
     }
     
-    constructor() {        
+    constructor(receiptStore: ReceiptStore) {        
         this.currentView = View.CashPoint        
-        this.currentReceipt = new Receipt(undefined)
+        this.currentReceipt = new Receipt(receiptStore, undefined)
         this.load()
     }      
 
@@ -100,4 +100,4 @@ function autoSave(viewState: ViewState) {
     }, 300)
 }
 
-export default new ViewState()
+export default new ViewState(receiptStore)

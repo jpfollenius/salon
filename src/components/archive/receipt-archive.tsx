@@ -8,24 +8,9 @@ import { formatPrice } from '../../utils/utils'
 import { ReceiptStore, Receipts, Receipt } from '../../domain/receipt-store'
 import { Toolbar, Buttons, Button, Icon, DatePicker, Spinner } from '../shared/ui'
 
-const receiptTableWidth = 600
 
-const styles = {
-  colRight: {
-    textAlign: 'right',
-  },    
-}
+//--- ExpandedReceiptArchiveRow ---
 
-function ReceiptArchiveRow({ receipt, onClick, isSelected }) {
-  return (
-    <tr key={receipt.id} onClick={() => onClick(receipt)}>
-      <td>{receipt.id}</td>
-      <td>{moment(receipt.date).format('HH:mm')}</td>
-      <td style={styles.colRight}>{receipt.totalQuantity}</td>
-      <td style={styles.colRight}>{formatPrice(receipt.totalPrice)} €</td>
-    </tr>
-  )
-}
 
 function ExpandedReceiptArchiveRow({ receipt }) {
   const styles = {
@@ -37,15 +22,10 @@ function ExpandedReceiptArchiveRow({ receipt }) {
     }
   }
 
-  const tableOptions = {
-
-  }
-
   return (       
     <div style={styles.table}>
       <BootstrapTable         
         data={receipt.items} 
-        options={tableOptions}                           
       >
         <TableHeaderColumn dataField='name' isKey></TableHeaderColumn>
         <TableHeaderColumn dataField='quantity'>Menge</TableHeaderColumn>
@@ -64,6 +44,9 @@ function ExpandedReceiptArchiveRow({ receipt }) {
 }
 
 
+//--- ReceiptArchive ---
+
+
 interface ReceiptArchiveProps {
   receiptStore?: ReceiptStore
   navigation
@@ -74,17 +57,19 @@ export default class ReceiptArchive extends React.Component<ReceiptArchiveProps,
   @observable date: Date = moment().toDate()  
   @observable selectedReceipt: Receipt = undefined
   receipts: Receipts
+  cleanupAutorun
 
   componentWillMount() {
     this.receipts = this.props.receiptStore.createReceipts()
 
-    autorun(() => {      
+    this.cleanupAutorun = autorun(() => {      
       this.receipts.setDateRange(this.date, this.date)
     })
   }
 
   componentWillUnmount() {
     this.receipts.release()
+    this.cleanupAutorun()
   }
 
   @action handleDateChange = (date) => {
@@ -105,60 +90,34 @@ export default class ReceiptArchive extends React.Component<ReceiptArchiveProps,
     } else {
       this.selectedReceipt = receipt
     }
-  }
-
-  getTableContent() {
-    if (this.receipts.isLoading) 
-      return <Spinner />
-    
-    const tableRows = []
-
-    this.receipts.getAll().forEach(receipt => {
-      tableRows.push(
-        <ReceiptArchiveRow
-          key={receipt.id}
-          receipt={receipt}  
-          isSelected={receipt === this.selectedReceipt}                     
-          onClick={this.handleReceiptClick} 
-        />)
-    })
-
-    return (
-      <tbody>
-        {...tableRows}
-      </tbody>
-    )
-  }
+  }  
 
   getExpandComponent(receipt) {    
     return <ExpandedReceiptArchiveRow receipt={receipt} />
   }
 
   getPrice(cell, receipt) {
-    return <span style={{height: '48px'}}>{formatPrice(receipt.totalPrice)} €</span>
+    return <span>{formatPrice(receipt.totalPrice)} €</span>
+  }
+
+  getTime(cell, receipt) {
+    return <span>{moment(receipt.date).format('HH:mm')}</span>
   }
 
   render() {        
     const tableOptions = {
       noDataText: 'Keine Belege vorhanden',
       expandRowBgColor: '#eee'
-
-
     }
-
 
     return (
       <div>
         <Toolbar>
           {this.props.navigation}          
-          <Buttons>
-            <Button onClick={this.handlePreviousDayClick}><Icon icon="chevron-left" /></Button>
-            <Button onClick={this.handleNextDayClick}><Icon icon="chevron-right" /></Button>
-            <DatePicker
-              selectedDate={this.date}
-              onChange={this.handleDateChange}
-            />
-          </Buttons>
+          <DatePicker
+            selectedDate={this.date}
+            onChange={this.handleDateChange}
+          />          
         </Toolbar>  
 
         { !this.receipts.isLoading &&
@@ -170,8 +129,13 @@ export default class ReceiptArchive extends React.Component<ReceiptArchiveProps,
             expandableRow={(row) => true}
             expandComponent={this.getExpandComponent}            
           >
-            <TableHeaderColumn dataField='id' isKey>Belegnummer</TableHeaderColumn>
-            <TableHeaderColumn dataField='totalQuantity' width={200} dataAlign="right">Menge</TableHeaderColumn>
+            <TableHeaderColumn dataField='number' isKey>Belegnummer</TableHeaderColumn>
+            <TableHeaderColumn dataField='date' dataFormat={this.getTime}>Zeit</TableHeaderColumn>
+            <TableHeaderColumn dataField=''>Kunde</TableHeaderColumn>
+            <TableHeaderColumn dataField=''>Mitarbeiter</TableHeaderColumn>            
+            <TableHeaderColumn dataField='' width={200}>Bemerkung</TableHeaderColumn>            
+            <TableHeaderColumn dataField='' dataAlign="right">Bar</TableHeaderColumn>
+            <TableHeaderColumn dataField='' dataAlign="right">EC</TableHeaderColumn>            
             <TableHeaderColumn dataField='totalPrice' width={200} dataAlign="right" dataFormat={this.getPrice}>Belegsumme</TableHeaderColumn>          
           </BootstrapTable>                                              
         }

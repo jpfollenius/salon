@@ -100,17 +100,19 @@ interface DayCalendarProps {
 @inject('appointmentStore') @observer
 export default class DayCalendar extends React.Component<DayCalendarProps, {}> {
     @observable appointments: Appointments
+    cleanupAutorun
 
     componentWillMount() {
         this.appointments = this.props.appointmentStore.createAppointments()
 
-        autorun(() => {
+        this.cleanupAutorun = autorun(() => {
             this.appointments.setDateRange(this.props.date, this.props.date)
         })
     }
 
     componentWillUnmount() {
         this.appointments.release()
+        this.cleanupAutorun()
     }
 
     handleNewAppointment = (start, end, employee) => {

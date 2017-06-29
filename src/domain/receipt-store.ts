@@ -8,7 +8,7 @@ export class ReceiptItem {
     @observable product: Product
     @observable quantity: number
     @observable price: number
-
+    
     constructor(product: Product, quantity: number) {        
         this.product = product
         this.quantity = quantity
@@ -25,11 +25,14 @@ export class ReceiptItem {
 }
 
 export class Receipt {
+    store: ReceiptStore
+    number: number
     id: string
     date: Date
     @observable items: ReceiptItem[] = []
 
-    constructor(id: string) {
+    constructor(store: ReceiptStore, id: string) {
+        this.store = store
         this.id = id
     }
 
@@ -72,11 +75,13 @@ export class Receipt {
 export class Receipts {
     ref
     productStore: ProductStore
+    store: ReceiptStore
     @observable receipts: Receipt[] = []
     @observable isLoading = true
 
-    constructor(ref, productStore) {
+    constructor(store, ref, productStore) {
         this.ref = ref
+        this.store = store
         this.productStore = productStore
     }
 
@@ -109,7 +114,8 @@ export class Receipts {
     }
 
     @action doAdd(key, child) {
-        const receipt = new Receipt(key)
+        const receipt = new Receipt(this.store, key)
+        receipt.number = child.number
         receipt.date = new Date(child.date)
         receipt.items = child.items.map(item => {
             const productId = item.productId  
@@ -144,13 +150,28 @@ export class ReceiptStore {
     }
 
     createReceipts() {        
-        return new Receipts(firebase.database().ref(this.userId + '/receipts'), this.productStore)
+        return new Receipts(this, firebase.database().ref(this.userId + '/receipts'), this.productStore)
     }
 
-    addReceipt(receipt: Receipt) {        
-        const listRef = firebase.database().ref(this.userId + '/receipts')
-        const receiptRef = listRef.push()
-        receiptRef.setWithPriority({
+    generateReceiptNumber(): Promise<number> {
+        let receiptNumber
+        const ref = firebase.database().ref(this.userId + '/nextReceiptNumber')        
+
+        return new Promise((resolve, reject) => {
+            ref.transaction(function(currentNumber) {
+                return (currentNumber || 0) + 1
+            }, function(err, committed, snapshot) {
+                if (err) {
+                    reject('Failed to generate receipt number')                    
+                }
+
+                resolve(snapshot.val())
+            })
+        })        
+    }
+
+    addReceipt(receipt: Receipt) { 
+        const receiptData = {
             date: moment().toDate().getTime(),
             items: receipt.items.map(item => {
                 return {
@@ -158,8 +179,18 @@ export class ReceiptStore {
                     productId: item.product.id,
                     quantity: item.quantity
                 }
-            })                        
-        }, moment().toDate().getTime())     
+            })   
+        }
+
+        this.generateReceiptNumber().then((receiptNumber) => {            
+            const listRef = firebase.database().ref(this.userId + '/receipts')
+            const receiptRef = listRef.push()
+            
+            receiptRef.setWithPriority({
+                number: receiptNumber,
+                ...receiptData,     
+            }, receiptData.date)     
+        })
     }   
 }
 
