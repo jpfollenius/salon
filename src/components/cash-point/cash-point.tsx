@@ -5,7 +5,7 @@ import { observer, inject } from 'mobx-react'
 import Catalogue from './catalogue'
 import ReceiptView from './receipt-view'
 import PaymentDetails from './payment-details'
-import { Button, Buttons, Toolbar } from '../shared/ui'
+import { Button, Buttons, Toolbar, Card } from '../shared/ui'
 import { ViewState } from '../../domain/view-state'
 import { ProductStore } from '../../domain/product-store'
 import { ReceiptStore } from '../../domain/receipt-store'
@@ -22,9 +22,11 @@ const styles = {
         marginRight: '20px',
         flexWrap: 'wrap',    
     },
-    catalogue: {
-        padding: '10px',
-        width: '520px',        
+    toolbar: {
+        borderBottom: 'none'
+    },
+    catalogue: {        
+        width: '542px',        
         marginRight: '40px',   
     },
     catalogueExpanded: {                        
@@ -35,15 +37,12 @@ const styles = {
         transform: 'translate(-560px)',
         transition: 'transform 300ms',
     },    
-    receipt: {
-        padding: '10px',
-        flexGrow: 1,        
-        marginTop: '30px',
+    receipt: {        
+        flexGrow: 1,                
     },
     paymentDetails: {
         width: '520px',       
-        marginLeft: '40px',        
-        paddingLeft: '40px',        
+        marginLeft: '40px',                      
     },
     paymentDetailsExpanded: {     
         transform: 'translate(-560px)',        
@@ -73,7 +72,7 @@ export default class CashPoint extends React.Component<CashPointProps, {}> {
 
         return (
             <div>
-                <Toolbar>                
+                <Toolbar style={styles.toolbar}>                
                     <div></div>
                     <div>
                         <Buttons>                        
@@ -85,25 +84,25 @@ export default class CashPoint extends React.Component<CashPointProps, {}> {
                 </Toolbar>
 
                 <div style={styles.layout}>                    
-                    <div style={catalogueStyle}>
+                    <Card style={catalogueStyle}>
                         <Catalogue 
                             onProductSelected={ this.handleProductSelected }/>
-                    </div>                      
+                    </Card>                      
                     
-                    <div style={receiptStyle}>
+                    <Card style={receiptStyle}>
                         <ReceiptView 
                             receipt={ receipt } 
                             canPay={!this.isInPayment} 
                             onPay={ this.handlePayment } />
-                    </div>
+                    </Card>
                     
-                    <div style={paymentDetailsStyle}>
+                    <Card style={paymentDetailsStyle}>
                         <PaymentDetails 
                             amount={ receipt.totalPrice }
                             onBack={ this.handlePaymentCancelled }
                             onSubmit={ this.handlePaymentFinished }                        
                         />                    
-                    </div>                        
+                    </Card>                        
                 </div>
             </div>
         )

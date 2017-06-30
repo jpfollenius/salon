@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-const styles = {
+const style = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -9,13 +9,13 @@ const styles = {
 }
 
 interface ToolbarProps {
-        
+    style?        
 }
 
 export default class Toolbar extends React.Component<ToolbarProps, {}> {
     render() {
         return (
-            <div style={styles}>
+            <div style={{...style, ...this.props.style}}>
                 {this.props.children}
             </div>
         )

@@ -47,6 +47,13 @@ function ExpandedReceiptArchiveRow({ receipt }) {
 //--- ReceiptArchive ---
 
 
+const styles = {
+  toolbar: {
+    marginBottom: '20px',
+    borderBottom: 'none',    
+  }
+}
+
 interface ReceiptArchiveProps {
   receiptStore?: ReceiptStore
   navigation
@@ -112,7 +119,7 @@ export default class ReceiptArchive extends React.Component<ReceiptArchiveProps,
 
     return (
       <div>
-        <Toolbar>
+        <Toolbar style={styles.toolbar}>
           {this.props.navigation}          
           <DatePicker
             selectedDate={this.date}

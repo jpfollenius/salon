@@ -5,5 +5,6 @@ import NumberEdit from './number-edit'
 import Icon from './icon'
 import DatePicker from './date-picker'
 import Spinner from './spinner'
+import Card from './card'
 
-export {Button, Buttons, Toolbar, NumberEdit, Icon, DatePicker, Spinner}
+export {Button, Buttons, Toolbar, NumberEdit, Icon, DatePicker, Spinner, Card}
