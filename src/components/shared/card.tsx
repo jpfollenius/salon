@@ -7,9 +7,10 @@ const style = {
   marginBottom: '20px',
   backgroundClip: 'padding-box',
   backgroundColor: 'white',
+  margin: '0 10px',
 }
 
-interface CardProps {
+interface CardProps {  
   style?
 }
 

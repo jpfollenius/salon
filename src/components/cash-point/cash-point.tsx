@@ -11,23 +11,29 @@ import { ProductStore } from '../../domain/product-store'
 import { ReceiptStore } from '../../domain/receipt-store'
 
 const styles = {
+    container: {
+        overflowX: 'hidden',
+    },
     layout: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'stretch',
         height: '100%',
-        width: 'calc(100% + 520px)',
+        width: 'calc(100% + 522px)',
         marginLeft: '20px',
         marginTop: '20px',
-        marginRight: '20px',
-        flexWrap: 'wrap',    
+        marginRight: '20px',        
+        flexWrap: 'wrap',   
+        overflowY: 'scroll',
+        overflowX: 'hidden', 
     },
     toolbar: {
         borderBottom: 'none'
     },
     catalogue: {        
         width: '542px',        
-        marginRight: '40px',   
+        marginRight: '20px',   
+        minHeight: 'calc(100vh - 180px)',
     },
     catalogueExpanded: {                        
         transform: 'translate(0)',
@@ -42,7 +48,7 @@ const styles = {
     },
     paymentDetails: {
         width: '520px',       
-        marginLeft: '40px',                      
+        marginLeft: '20px',                      
     },
     paymentDetailsExpanded: {     
         transform: 'translate(-560px)',        
@@ -71,7 +77,7 @@ export default class CashPoint extends React.Component<CashPointProps, {}> {
         const receipt = this.props.viewState.currentReceipt
 
         return (
-            <div>
+            <div style={styles.container}>
                 <Toolbar style={styles.toolbar}>                
                     <div></div>
                     <div>

@@ -30,7 +30,7 @@ body {
 
 .full-width .container {
     width: 100%;
-    padding: 0 20px;
+    padding: 0 40px;
 }
 
 .navbar {    
@@ -250,3 +250,54 @@ tr {
 }
 
 .react-bs-table td { outline: none !important; }
+
+
+.timeline-2 {
+  border-left: 2px solid #98a6ad;
+  position: relative; }
+  .timeline-2 .time-item:after {
+    background-color: #ffffff;
+    border-color: #98a6ad;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    bottom: 0;
+    content: '';
+    height: 14px;
+    left: 0;
+    margin-left: -8px;
+    position: absolute;
+    top: 5px;
+    width: 14px; }
+
+.time-item {
+  border-color: #dee5e7;
+  padding-bottom: 1px;
+  position: relative; }
+  .time-item:before {
+    content: " ";
+    display: table; }
+  .time-item:after {
+    background-color: #ffffff;
+    border-color: #98a6ad;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    bottom: 0;
+    content: '';
+    height: 14px;
+    left: 0;
+    margin-left: -8px;
+    position: absolute;
+    top: 5px;
+    width: 14px; }
+
+.time-item-item:after {
+  content: " ";
+  display: table; }
+
+.item-info {
+  margin-bottom: 15px;
+  margin-left: 15px; }
+  .item-info p {
+    margin-bottom: 10px !important; }

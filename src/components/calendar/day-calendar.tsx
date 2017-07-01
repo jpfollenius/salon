@@ -32,14 +32,16 @@ const calendarMessages = {
 
 const styles = {
     layout: {
-        display: 'flex'
+        display: 'flex',        
     },
     calendarCol: {
-        flexGrow: 1
+        flexGrow: 1,        
     },
     colHeader: {
         textAlign: 'center',
         padding: '10px 0',
+        border: '1px solid #ccc',
+        borderBottom: 'none',
     }
 
 }

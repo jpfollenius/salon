@@ -11,8 +11,9 @@ import * as MenuItem from 'react-bootstrap/lib/MenuItem'
 
 import DayCalendar from './day-calendar'
 import WeekCalendar from './week-calendar'
-import { Toolbar, Buttons, Button, Icon, DatePicker } from '../shared/ui'
+import { Card, Toolbar, Buttons, Button, Icon, DatePicker } from '../shared/ui'
 import { Appointment, Appointments, AppointmentStore } from '../../domain/appointment-store'
+import commonStyles from '../../styles'
 
 const styles = {
     modeButtons: {        
@@ -36,8 +37,8 @@ export default class Calendar extends React.Component<CalendarProps, {}> {
     
     render() {       
         return (         
-            <div>                 
-                <Toolbar>                    
+            <Card style={commonStyles.contentContainer}>                 
+                <Toolbar style={commonStyles.cardToolbar}>                    
                     <Buttons>
                         <ButtonGroup style={styles.modeButtons}>
                             <Button active={ this.calendarMode === CalendarMode.Day } onClick={ this.handleDayClick }>Tag</Button>
@@ -49,31 +50,15 @@ export default class Calendar extends React.Component<CalendarProps, {}> {
                                 selectedDate={moment(this.currentDate).toDate()}
                                 onChange={this.dateChanged}                                
                             />                            
-                        }
-
-                       {/* <ButtonGroup>
-                            <Button onClick={ this.gotoToday }>Heute</Button>
-                            <Button onClick={ this.goPrevious }><Icon icon='chevron-left' /></Button>                                                                                                       
-                            <Button onClick={ this.goNext }><Icon icon='chevron-right' /></Button>                                                    
-                            <DropdownButton title={<Icon icon='plus' />} noCaret onSelect={this.weekOffsetSelected}>
-                                <MenuItem eventKey={1}>+ 1 Woche</MenuItem>
-                                <MenuItem eventKey={2}>+ 2 Wochen</MenuItem>
-                                <MenuItem eventKey={3}>+ 3 Wochen</MenuItem>
-                                <MenuItem eventKey={4}>+ 4 Wochen</MenuItem>
-                                <MenuItem eventKey={5}>+ 5 Wochen</MenuItem>
-                                <MenuItem eventKey={6}>+ 6 Wochen</MenuItem>
-                                <MenuItem eventKey={7}>+ 7 Wochen</MenuItem>
-                                <MenuItem eventKey={8}>+ 8 Wochen</MenuItem>
-                            </DropdownButton>                                                                                    
-                        </ButtonGroup>*/}
+                        }                      
                     </Buttons>                
                     <Buttons>
-                        <Button primary>Neuer Termin</Button>
+                        <Button primary><Icon icon="plus" /> Neuer Termin</Button>
                     </Buttons>                
                 </Toolbar>
 
                 { this.getCalendarContent() }                
-            </div>
+            </Card>
 
         )
     }

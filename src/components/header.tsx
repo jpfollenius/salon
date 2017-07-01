@@ -20,6 +20,9 @@ const styles = {
     headerIcon: {
         fontSize: '16px',
         marginRight: '8px',
+    },
+    logoNav: {
+        marginRight: '20px',
     }
 }
 
@@ -32,7 +35,7 @@ export default class Header extends React.Component<HeaderProps, {}> {
     render() {
         return (
             <Navbar inverse staticTop className='full-width'>                        
-                <Nav>
+                <Nav style={styles.logoNav}>
                     <NavDropdown onSelect={ this.handleMenuSelect } title={ <span className='logo'>Salon</span> } id='navbar-logo-dropdown'>
                         <MenuItem eventKey={LogoMenu.Settings}>Einstellungen</MenuItem>                                            
                         <MenuItem divider />
