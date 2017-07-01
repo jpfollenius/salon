@@ -10,248 +10,6 @@ body {
     user-select: none;
 }
 
-.toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 10px;
-    border-bottom: 1px solid lightgray;
-}
-
-.button-icon {
-    margin-right: 10px;
-}
-
-.btn {
-    font-size: 16px;
-}
-
-/* Navbar */
-
-.full-width .container {
-    width: 100%;
-    padding: 0 40px;
-}
-
-.navbar {    
-    margin-bottom: 0;    
-}
-
-.header-icon {
-    font-size: 16px;
-    margin-right: 8px;    
-}
-
-.header-text {
-    font-size: 16px;    
-    font-weight: normal;    
-}
-
-.nav-tabs {
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: lighter;
-    font-size: 16px !important;
-}
-
-.logo {
-    font-family: 'Pacifico', cursive;
-    font-size: 32px !important;
-    color: white !important;
-    font-size: 22px;    
-    vertical-align: middle;
-    margin-right: 5px;
-}
-
-.loading-screen {
-    padding: 20px;    
-}
-
-.title {
-    font-size: 20px;
-    font-weight: bold;
-    line-height: 40px;
-}
-
-.catalogue-tile-layout {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    width: 100%;
-}
-
-.catalogue-tile {
-    margin-right: 5px;
-    margin-bottom: 5px;    
-    padding: 10px;
-    width: 120px;
-    height: 120px;
-    background-color: orange;
-    color: black;
-    text-align: center;    
-    border-radius: 3px;
-    font-size: 16px;
-    user-select: none;    
-}
-
-.catalogue-tile-content {
-    height: 100%;    
-    display: flex;    
-    justify-content: center;
-    align-items: center;
-}
-
-.catalogue-tile-back {
-    font-size: 24px;
-}
-
-.catalogue-price {
-    font-size: 14px;
-    font-weight: lighter;
-}
-
-.cashpoint-buttons {    
-    height: 32px;
-    display: flex;   
-    justify-content: flex-end; 
-    margin-top: 40px;
-}
-
-.receipt-row {
-    height: 60px;    
-}
-
-.table tbody tr td {
-    vertical-align: middle; 
-}
-
-.total-price {
-    text-align: right;
-    font-weight: bold;
-    font-size: 24px;    
-}
-
-/*
-Table td {
-    border-top: none !important;
-}*/
-
-.col-right {
-    text-align: right;            
-}
-
-.col-highlighted {
-    font-weight: bold;
-}
-
-.full-width {
-    width: 100%;
-}
-
-.jumbotron {
-    padding: 20px;
-    height: 2000px;
-    margin-top: 20px;
-}
-
-Table th {
-    font-size: 16px;    
-}
-
-tr {
-    font-size: 16px;
-    line-height: 60px;
-}
-
-.number-edit {
-    width: 100px;
-}
-
-.payment-table {    
-    margin: 20px;
-}
-
-.payment-table tbody tr td {
-    vertical-align: middle;
-    margin: 0 20px;
-    min-width: 200px;    
-    box-shadow: none;
-}
-
-.react-datepicker {
-  font-size: 1.3rem !important;
-}
-
-.react-datepicker__current-month {
-  font-size: 1.5rem !important;
-}
-
-.react-datepicker__header {
-  padding-top: 6px !important;
-}
-
-.react-datepicker__navigation {
-  top: 13px !important;
-}
-
-.react-datepicker__day-name, .react-datepicker__day {
-  margin: 0.5rem !important;
-}
-
-.calendar-notime .rbc-time-column {
-    width: 0 !important; 
-    color: white;   
-}
-
-.rbc-time-view .rbc-row {
-    min-height: 0px;
-}
-
-.rbc-time-view .rbc-row div:nth-child(1) {
-    height: 0px !important;    
-}
-
-.day-calendar .rbc-time-header {
-    height: 0 !important;
-}
-
-.day-calendar .rbc-today {
-    background-color: white;
-}
-
-.rbc-time-view {
-    border: none;
-}
-
-.rbc-time-content {
-    border-top: 1px solid #DDD;
-}
-
-.slide-enter .slide-enter-active {    
-    opacity: 1;
-    transition: opacity 1000ms ease-in;
-}
-
-.button-fade-enter {
-    opacity: 0.01;    
-}
-
-.button-fade-enter.button-fade-enter-active {
-    opacity: 1;
-    transition: opacity 300ms;
-}
-
-.button-fade-leave {
-    opacity: 1;    
-}
-
-.button-fade-leave.button-fade-leave-active {
-    opacity: 0.01;
-    transition: opacity 300ms;
-}
-
-.react-bs-table td { outline: none !important; }
-
-
 .timeline-2 {
   border-left: 2px solid #98a6ad;
   position: relative; }
@@ -301,3 +59,201 @@ tr {
   margin-left: 15px; }
   .item-info p {
     margin-bottom: 10px !important; }
+
+/* BOOTSTRAP MODIFICATIONS */
+
+.btn {
+    font-size: 16px;
+}
+
+.full-width .container {
+    width: 100%;
+    padding: 0 40px;
+}
+
+.navbar {    
+    margin-bottom: 0;    
+}
+
+.nav-tabs {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: lighter;
+    font-size: 16px !important;
+}
+
+.logo {
+    font-family: 'Pacifico', cursive;
+    font-size: 28px !important;
+    color: white !important;
+    font-size: 22px;    
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.loading-screen {
+    padding: 20px;    
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 40px;
+}
+
+.catalogue-tile-layout {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.catalogue-tile {
+    margin-right: 5px;
+    margin-bottom: 5px;    
+    padding: 10px;
+    width: 120px;
+    height: 120px;
+    background-color: orange;
+    color: black;
+    text-align: center;    
+    border-radius: 3px;
+    font-size: 16px;
+    user-select: none;    
+}
+
+.catalogue-tile-content {
+    height: 100%;    
+    display: flex;    
+    justify-content: center;
+    align-items: center;
+}
+
+.catalogue-price {
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+.receipt-row {
+    height: 60px;    
+}
+
+.table tbody tr td {
+    vertical-align: middle; 
+}
+
+.total-price {
+    text-align: right;
+    font-weight: bold;
+    font-size: 24px;    
+}
+
+.col-right {
+    text-align: right;            
+}
+
+.col-highlighted {
+    font-weight: bold;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.jumbotron {
+    padding: 20px;
+    height: 2000px;
+    margin-top: 20px;
+}
+
+Table th {
+    font-size: 16px;    
+}
+
+tr {
+    font-size: 16px;
+    line-height: 60px;
+}
+
+.number-edit {
+    width: 100px;
+}
+
+/* react-datepicker modifications */
+
+.react-datepicker {
+  font-size: 1.3rem !important;
+}
+
+.react-datepicker__current-month {
+  font-size: 1.5rem !important;
+}
+
+.react-datepicker__header {
+  padding-top: 6px !important;
+}
+
+.react-datepicker__navigation {
+  top: 13px !important;
+}
+
+.react-datepicker__day-name, .react-datepicker__day {
+  margin: 0.5rem !important;
+}
+
+/* react-big-calendar modifications */
+
+.calendar-notime .rbc-time-column {
+    width: 0 !important; 
+    color: white;   
+}
+
+.rbc-time-view .rbc-row {
+    min-height: 0px;
+}
+
+.rbc-time-view .rbc-row div:nth-child(1) {
+    height: 0px !important;    
+}
+
+.day-calendar .rbc-time-header {
+    height: 0 !important;
+}
+
+.day-calendar .rbc-today {
+    background-color: white;
+}
+
+.rbc-time-view {
+    border: none;
+}
+
+.rbc-time-content {
+    border-top: 1px solid #DDD;
+}
+
+/** CSS animations */
+
+.button-fade-enter {
+    opacity: 0.01;    
+}
+
+.button-fade-enter.button-fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms;
+}
+
+.button-fade-leave {
+    opacity: 1;    
+}
+
+.button-fade-leave.button-fade-leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms;
+}
+
+/* react-bootstrap-table modifications */
+
+.react-bs-table td { outline: none !important; }
+
+
+

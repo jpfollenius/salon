@@ -23,6 +23,10 @@ const styles = {
     },
     logoNav: {
         marginRight: '20px',
+    },
+    headerText: {
+        fontSize: '16px',
+        fontWeight: 400,  
     }
 }
 
@@ -47,11 +51,11 @@ export default class Header extends React.Component<HeaderProps, {}> {
                 </Nav>
 
                 <Nav activeKey={ this.props.viewState.currentView } onSelect={ this.handleViewSelect }>
-                    <NavItem eventKey={ View.CashPoint }><Icon icon='shopping-cart' style={styles.headerIcon} /><span className='header-text'>Kasse</span></NavItem>
-                    <NavItem eventKey={ View.Calendar }><Icon icon='calendar' style={styles.headerIcon} /><span className='header-text'>Kalender</span></NavItem>                    
-                    <NavItem eventKey={ View.Customers }><Icon icon='user' style={styles.headerIcon} /><span className='header-text'>Kunden</span></NavItem>
-                    <NavItem eventKey={ View.Inventory }><Icon fontawesome icon='cubes' style={styles.headerIcon} /><span className='header-text'>Bestand</span></NavItem>
-                    <NavItem eventKey={ View.Archive }><Icon fontawesome icon='book' style={styles.headerIcon} /><span className='header-text'>Archiv</span></NavItem>
+                    <NavItem eventKey={ View.CashPoint }><Icon icon='shopping-cart' style={styles.headerIcon} /><span style={styles.headerText}>Kasse</span></NavItem>
+                    <NavItem eventKey={ View.Calendar }><Icon icon='calendar' style={styles.headerIcon} /><span style={styles.headerText}>Kalender</span></NavItem>                    
+                    <NavItem eventKey={ View.Customers }><Icon icon='user' style={styles.headerIcon} /><span style={styles.headerText}>Kunden</span></NavItem>
+                    <NavItem eventKey={ View.Inventory }><Icon fontawesome icon='cubes' style={styles.headerIcon} /><span style={styles.headerText}>Bestand</span></NavItem>
+                    <NavItem eventKey={ View.Archive }><Icon fontawesome icon='book' style={styles.headerIcon} /><span style={styles.headerText}>Archiv</span></NavItem>
                 </Nav>                
             </Navbar>            
         )

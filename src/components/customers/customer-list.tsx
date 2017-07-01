@@ -17,6 +17,7 @@ const styles = {
   customerDetails: {
     width: '400px',
     flexShrink: 0,
+    marginLeft: '20px',
   },
   comment: {
     marginTop: '20px',

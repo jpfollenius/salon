@@ -19,10 +19,8 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'stretch',
         height: '100%',
-        width: 'calc(100% + 522px)',
-        marginLeft: '20px',
-        marginTop: '20px',
-        marginRight: '20px',        
+        width: 'calc(100% + 480px)',
+        margin: '40px',        
         flexWrap: 'wrap',   
         overflowY: 'scroll',
         overflowX: 'hidden', 
@@ -51,12 +49,14 @@ const styles = {
         marginLeft: '20px',                      
     },
     paymentDetailsExpanded: {     
+        opacity: 1,
         transform: 'translate(-560px)',        
-        transition: 'all 300ms' ,
+        transition: 'transform 300ms' ,
     },
-    paymentDetailsCollapsed: {        
+    paymentDetailsCollapsed: {
+        opacity: 0,        
         transform: 'translate(0)',        
-        transition: 'all 300ms',       
+        transition: 'transform 300ms',       
     },
 }
 
@@ -78,7 +78,7 @@ export default class CashPoint extends React.Component<CashPointProps, {}> {
 
         return (
             <div style={styles.container}>
-                <Toolbar style={styles.toolbar}>                
+                {/*<Toolbar style={styles.toolbar}>                
                     <div></div>
                     <div>
                         <Buttons>                        
@@ -87,7 +87,7 @@ export default class CashPoint extends React.Component<CashPointProps, {}> {
                             <Button primary>Tagesabschluss</Button>
                         </Buttons>
                     </div>
-                </Toolbar>
+                </Toolbar>*/}
 
                 <div style={styles.layout}>                    
                     <Card style={catalogueStyle}>
