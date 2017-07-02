@@ -255,5 +255,18 @@ tr {
 
 .react-bs-table td { outline: none !important; }
 
+@-webkit-keyframes grow450 {   
+    0% {width: 0;}
+    100% {width: 450px;}
+}
 
+@keyframes grow450 {
+    0% {width: 0;}
+    100% {width: 450px;}
+}
+
+.grow450 {
+   -webkit-animation: grow450 200ms linear;
+   animation: grow450 200ms linear;
+}
 

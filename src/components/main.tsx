@@ -15,6 +15,7 @@ import CashPoint from './cash-point/cash-point'
 import Calendar from './calendar/calendar'
 import Archive from './archive/archive'
 import CustomerList from './customers/customer-list'
+import { CustomerStore } from '../domain/customer-store'
 
 interface MainProps {
     viewState: ViewState
@@ -22,6 +23,7 @@ interface MainProps {
     appointmentStore: AppointmentStore
     catalogueStore: CatalogueStore
     receiptStore: ReceiptStore
+    customerStore: CustomerStore
 }
 
 @observer
@@ -48,6 +50,7 @@ export default class Main extends React.Component<MainProps, {}> {
                 appointmentStore= { this.props.appointmentStore }
                 catalogueStore={ this.props.catalogueStore }
                 receiptStore={ this.props.receiptStore }
+                customerStore={ this.props.customerStore }
             >         
                 { !this.props.viewState.isLoading
                     ?

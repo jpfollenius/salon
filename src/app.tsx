@@ -2,6 +2,8 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import { autorun, useStrict } from 'mobx'
 import * as firebase from 'firebase'
+import * as BigCalendar from 'react-big-calendar'
+import * as moment from 'moment'
 
 import Main from './components/main'
 import viewState from './domain/view-state'
@@ -9,8 +11,7 @@ import productStore from './domain/product-store'
 import appointmentStore from './domain/appointment-store'
 import catalogueStore from './domain/catalogue-store'
 import receiptStore from './domain/receipt-store'
-import * as BigCalendar from 'react-big-calendar'
-import * as moment from 'moment'
+import customerStore from './domain/customer-store'
 
 // Setup moment
 moment.locale('de')
@@ -47,10 +48,11 @@ firebase.auth().onAuthStateChanged((user) => {
 autorun(() => {    
     if (viewState.currentUserId) {
         viewState.startLoading()
-        productStore.load(viewState.currentUserId)   
+        productStore.load(viewState.currentUserId)           
             .then(() => appointmentStore.load(viewState.currentUserId))
             .then(() => receiptStore.load(viewState.currentUserId))
             .then(() => catalogueStore.load(viewState.currentUserId))
+            .then(() => customerStore.load(viewState.currentUserId))
             .then(viewState.finishedLoading.bind(viewState))
     }        
 })
@@ -61,6 +63,7 @@ const stores = {
     appointmentStore,
     catalogueStore,
     receiptStore,
+    customerStore,
 }
 
 render(

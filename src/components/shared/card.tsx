@@ -11,12 +11,13 @@ const style = {
 
 interface CardProps {  
   style?
+  className?: string
 }
 
 export default class Card extends React.Component<CardProps, {}> {
   render() {
     return (
-      <div style={{...style, ...this.props.style}}>
+      <div className={this.props.className} style={{...style, ...this.props.style}}>
         {this.props.children}
       </div>
     )
