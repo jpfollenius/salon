@@ -1,17 +1,20 @@
 import * as React from 'react'
+import { inject, observer } from 'mobx-react'
 import * as Modal from 'react-bootstrap/lib/Modal'
 
 import CreateCustomerForm from './create-customer-form'
 import { Buttons, Button } from '../shared/ui'
-import { Customer } from '../../domain/customer-store'
+import { Customer, CustomerStore } from '../../domain/customer-store'
 
 interface CreateCustomerDialogProps {
   onSubmit
   onCancel
+  customerStore?: CustomerStore
 }
 
+@inject('customerStore') @observer
 export default class CreateCustomerDialog extends React.Component<CreateCustomerDialogProps, {}> {
-  newCustomer: Customer = new Customer()
+  newCustomer: Customer = new Customer(this.props.customerStore)
 
   handleSubmit = () => {
     this.props.onSubmit(this.newCustomer)

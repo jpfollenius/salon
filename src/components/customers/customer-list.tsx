@@ -9,6 +9,7 @@ import commonStyles from '../../styles'
 import { CustomerStore, Customer, Gender } from '../../domain/customer-store'
 import { ViewState } from '../../domain/view-state'
 import CreateCustomerDialog from './create-customer-dialog'
+import CustomerDetails from './customer-details'
 
 const styles = {
   layout: {
@@ -23,14 +24,10 @@ const styles = {
     marginLeft: '20px',
     transition: 'all 300ms linear',
   },
-  comment: {
-    marginTop: '20px',
-  },
-  contactInfo: {
-    margin: '20px 0'
-  },
-  date: {
-    color: '#98a6ad'
+  rowAction: {
+    color: '#98a6ad',
+    width: '28px',
+    verticalAlign: 'middle',
   }
 }
 
@@ -71,12 +68,28 @@ export default class CustomerList extends React.Component<CustomerListProps, {}>
     }    
   }
 
+  getRowActions(cell, viewModel) {
+    return (
+      <span>
+        <Icon style={styles.rowAction} icon="pencil" onClick={this.handleEditCustomerClick}/>
+        <Icon style={styles.rowAction} icon="remove" onClick={() => this.handleDeleteCustomerClick(viewModel.customer)}/>
+      </span>
+    )
+  }
+
+  handleEditCustomerClick = (e) => {
+    console.log('edit')
+  }
+
+  handleDeleteCustomerClick = (customer) => {
+    console.log('delete')
+  }
+
   @action handleRowSelect = (viewModel, isSelected, e) => {
-    if (isSelected) {
-      this.selectedCustomer = viewModel.customer
-    } else {
-      this.selectedCustomer = undefined
-    }
+    if (!isSelected)
+      return false 
+    
+    this.selectedCustomer = viewModel.customer    
   }
 
   handleCreateCustomerDialogCancel = () => {
@@ -97,8 +110,7 @@ export default class CustomerList extends React.Component<CustomerListProps, {}>
     )
   }
 
-  @action handleCustomerDeleteClick = () => {
-    this.props.customerStore.deleteCustomer(this.selectedCustomer.id)
+  @action handleCustomerDelete = () => {
     this.selectedCustomer = undefined
   }
 
@@ -144,50 +156,17 @@ export default class CustomerList extends React.Component<CustomerListProps, {}>
             <TableHeaderColumn dataField='phoneNumber'>Telefonnummer</TableHeaderColumn>            
             <TableHeaderColumn dataField='comment'>Bemerkungen</TableHeaderColumn>            
             <TableHeaderColumn dataField=''>Letzter Termin</TableHeaderColumn>            
-            <TableHeaderColumn dataField=''>Nächster Termin</TableHeaderColumn>                                         
+            <TableHeaderColumn dataField=''>Nächster Termin</TableHeaderColumn>         
+            <TableHeaderColumn dataFormat={this.getRowActions} width={56}></TableHeaderColumn>                                
           </BootstrapTable>             
         </Card>
 
-        { this.selectedCustomer &&
-          <Card className='grow450' style={styles.customerDetails}>
-            <h2>{this.selectedCustomer.fullName}</h2>
-            <div style={styles.comment}>{this.selectedCustomer.comment}</div>
-            <div style={styles.contactInfo}>
-              <p><Icon icon="phone" />{this.selectedCustomer.phoneNumber}</p>
-              <p><Icon icon="envelope" />{this.selectedCustomer.email}</p>
-            </div>
-            <Buttons>
-              <Button>Zur Kasse</Button>
-              <Button>Neuer Termin</Button>
-              <Button><Icon icon="pencil" /></Button>
-              <Button danger onClick={this.handleCustomerDeleteClick}>Löschen</Button>
-            </Buttons>
-            <hr />
-
-            <div className="timeline-2">
-              <div className="time-item">
-                <div className="item-info">
-                  <small style={styles.date}>01.12.2016</small>
-                  <p>Haare schneiden, Föhnen</p>
-                </div>
-              </div>
-
-              <div className="time-item">
-                <div className="item-info">
-                  <small style={styles.date}>01.12.2016</small>
-                  <p>Haare schneiden</p>
-                </div>
-              </div>
-
-              <div className="time-item">
-                <div className="item-info">
-                  <small style={styles.date}>01.12.2016</small>
-                  <p>Haare schneiden, Föhnen</p>
-                </div>
-              </div>
-            </div>
-
-          </Card>
+        { this.selectedCustomer &&  
+          <CustomerDetails 
+            customer={this.selectedCustomer} 
+            onCustomerDelete={this.handleCustomerDelete}
+            style={styles.customerDetails}
+          />          
         }
       </div>
     )

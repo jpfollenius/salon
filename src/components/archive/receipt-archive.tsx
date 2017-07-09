@@ -15,6 +15,7 @@ import { Toolbar, Buttons, Button, Icon, DatePicker, Spinner } from '../shared/u
 function ExpandedReceiptArchiveRow({ receipt }) {
   const styles = {
     table: {
+      width: '600px',
       margin: '20px',
     },
     comment: {
@@ -24,12 +25,12 @@ function ExpandedReceiptArchiveRow({ receipt }) {
 
   return (       
     <div style={styles.table}>
-      <BootstrapTable         
+      <BootstrapTable           
         data={receipt.items} 
       >
         <TableHeaderColumn dataField='name' isKey></TableHeaderColumn>
-        <TableHeaderColumn dataField='quantity'>Menge</TableHeaderColumn>
-        <TableHeaderColumn dataField='totalPrice' dataAlign="right" dataFormat={(cell, item) => <span>{formatPrice(item.totalPrice)} €</span>}>Preis</TableHeaderColumn>          
+        <TableHeaderColumn dataField='quantity' width={100}>Menge</TableHeaderColumn>
+        <TableHeaderColumn dataField='totalPrice' dataAlign="right" width={100} dataFormat={(cell, item) => <span>{formatPrice(item.totalPrice)} €</span>}>Preis</TableHeaderColumn>          
       </BootstrapTable>  
       
       <p style={styles.comment}>Bemerkung: -</p>

@@ -45,8 +45,10 @@ export default class CreateCustomerForm extends React.Component<CreateCustomerFo
   @action handleBirthdateChange = (e) => {
     this.birthDate = e.target.value
     const timestamp = Date.parse(this.birthDate)
-    if (!isNaN(timestamp))
+    if (!isNaN(timestamp)) {
       this.props.customer.birthDate = new Date(timestamp)
+      console.log(this.props.customer.birthDate)
+    }      
   }
 
   @action setGender(gender: Gender) {

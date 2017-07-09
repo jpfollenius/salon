@@ -15,6 +15,7 @@ export enum MethodOfContact {
 }
 
 export class Customer {
+  store: CustomerStore
   id: string      // unique id created by firebase
   
   @observable gender: Gender = Gender.Female
@@ -29,8 +30,16 @@ export class Customer {
   
   @observable appointments: number[] = []     // appointment ids
 
+  constructor(store: CustomerStore) {
+    this.store = store
+  }
+
   @computed get fullName() {
     return `${this.firstName} ${this.lastName}`
+  }
+
+  delete() {
+    this.store.deleteCustomer(this.id)
   }
 
   toJson() {
@@ -39,7 +48,7 @@ export class Customer {
       firstName: this.firstName,
       lastName: this.lastName,
       supplement: this.supplement,
-      birthdate: this.birthDate && this.birthDate.getTime(),
+      birthdate: this.birthDate ? this.birthDate.getTime() : null,
       phoneNumber: this.phoneNumber,
       email: this.email,
       comment: this.comment,
@@ -53,11 +62,11 @@ export class Customer {
     this.firstName = data.firstName
     this.lastName = data.lastName
     this.supplement = data.supplement
-    this.birthDate = data.birthDate && new Date(data.birthDate)
+    this.birthDate = data.birthdate ? new Date(data.birthdate) : null
     this.phoneNumber = data.phoneNumber
     this.email = data.email
     this.comment = data.comment
-    this.preferredMethodOfContact = data.preferredMethodOfContact  
+    this.preferredMethodOfContact = data.preferredMethodOfContact     
   }
 }
 
@@ -86,7 +95,7 @@ export class CustomerStore {
   }
 
   @action private doAddChild(id, data) {
-    const customer = new Customer()
+    const customer = new Customer(this)
     customer.id = id
     customer.fromJson(data)    
     this.customers.push(customer);

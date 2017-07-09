@@ -60,6 +60,13 @@ const styles = {
     },
 }
 
+enum PaymentStage {
+    CustomerSelection,
+    ReceiptEditing,
+    EmployeeSelection,
+    Payment,
+}
+
 interface CashPointProps {
     viewState?: ViewState
     productStore?: ProductStore
