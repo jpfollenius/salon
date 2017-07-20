@@ -1,153 +1,88 @@
 import * as React from 'react'
-import { observable, action, autorun } from 'mobx'
+import { computed, observable, action } from 'mobx'
 import { observer, inject } from 'mobx-react'
-import * as moment from 'moment'
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
-import { formatPrice } from '../../utils/utils'
-import { ReceiptStore, Receipts, Receipt } from '../../domain/receipt-store'
-import { Toolbar, Buttons, Button, Icon, DatePicker, Spinner } from '../shared/ui'
-
-
-//--- ExpandedReceiptArchiveRow ---
-
-
-function ExpandedReceiptArchiveRow({ receipt }) {
-  const styles = {
-    table: {
-      width: '600px',
-      margin: '20px',
-    },
-    comment: {
-      margin: '20px 0',
-    }
-  }
-
-  return (       
-    <div style={styles.table}>
-      <BootstrapTable           
-        data={receipt.items} 
-      >
-        <TableHeaderColumn dataField='name' isKey></TableHeaderColumn>
-        <TableHeaderColumn dataField='quantity' width={100}>Menge</TableHeaderColumn>
-        <TableHeaderColumn dataField='totalPrice' dataAlign="right" width={100} dataFormat={(cell, item) => <span>{formatPrice(item.totalPrice)} €</span>}>Preis</TableHeaderColumn>          
-      </BootstrapTable>  
-      
-      <p style={styles.comment}>Bemerkung: -</p>
-
-      <Buttons>
-        <Button danger>Storno</Button>
-        <Button>Bondruck</Button>
-      </Buttons>
-
-    </div>
-  )
-}
-
-
-//--- ReceiptArchive ---
-
+import { CustomerStore, Customer } from '../../domain/customer-store'
+import { ReceiptStore, Receipt } from '../../domain/receipt-store'
+import { Card } from '../shared/ui'
+import ReceiptList from './receipt-list'
+import ReceiptDetails from './receipt-details'
 
 const styles = {
-  toolbar: {
-    marginBottom: '20px',
-    borderBottom: 'none',    
-  }
+  container: {
+    overflowX: 'hidden',
+  },
+  layout: {
+    margin: 20,
+    display: 'flex',
+    width: 'calc(125vw + 0px)',
+    height: 'calc(100vh - 90px)',    
+  },  
+  layoutReceiptSelected: {
+    transform: 'translate(-25vw) translate(-20px)',
+    transition: 'transform 300ms ease-in-out',
+  },
+  layoutNoReceiptSelected: {
+    transform: 'translate(0)',
+    transition: 'transform 300ms ease-in-out',
+  },
+  navigation: {    
+    width: '25vw',    
+  },
+  receiptList: {
+    padding: '0 20px',
+    width: 'calc(75vw - 20px)',    
+  },
+  receiptDetails: {        
+    width: '25vw',
+  },
 }
 
-interface ReceiptArchiveProps {
-  receiptStore?: ReceiptStore
-  navigation
+interface ReceiptArchiveProps {
+  navigation: JSX.Element
 }
 
-@inject('receiptStore') @observer
-export default class ReceiptArchive extends React.Component<ReceiptArchiveProps, {}> { 
-  @observable date: Date = moment().toDate()  
+@inject('customerStore') @observer
+export default class ReceiptArchive extends React.Component<ReceiptArchiveProps, {}> {
   @observable selectedReceipt: Receipt = undefined
-  receipts: Receipts
-  cleanupAutorun
-
-  componentWillMount() {
-    this.receipts = this.props.receiptStore.createReceipts()
-
-    this.cleanupAutorun = autorun(() => {      
-      this.receipts.setDateRange(this.date, this.date)
-    })
-  }
-
-  componentWillUnmount() {
-    this.receipts.release()
-    this.cleanupAutorun()
-  }
-
-  @action handleDateChange = (date) => {
-    this.date = date
-  }
-
-  @action handlePreviousDayClick = () => {
-    this.date = moment(this.date).subtract(1, 'day').toDate()
-  }
-
-  @action handleNextDayClick = () => {
-    this.date = moment(this.date).add(1, 'day').toDate()
-  }
 
   @action handleReceiptClick = (receipt) => {
-    if (this.selectedReceipt === receipt) {
-      this.selectedReceipt = undefined
-    } else {
-      this.selectedReceipt = receipt
-    }
-  }  
-
-  getExpandComponent(receipt) {    
-    return <ExpandedReceiptArchiveRow receipt={receipt} />
+    this.selectedReceipt = (receipt === this.selectedReceipt) ? undefined : receipt
   }
 
-  getPrice(cell, receipt) {
-    return <span>{formatPrice(receipt.totalPrice)} €</span>
+  @action handleDetailsClose = () => {
+    this.selectedReceipt = undefined
   }
-
-  getTime(cell, receipt) {
-    return <span>{moment(receipt.date).format('HH:mm')}</span>
-  }
-
-  render() {        
-    const tableOptions = {
-      noDataText: 'Keine Belege vorhanden',
-      expandRowBgColor: '#eee'
-    }
+  
+  render() {
+    let layoutStyle = {
+      ...styles.layout, 
+      ...(this.selectedReceipt ? styles.layoutReceiptSelected : styles.layoutNoReceiptSelected)
+    }    
 
     return (
-      <div>
-        <Toolbar style={styles.toolbar}>
-          {this.props.navigation}          
-          <DatePicker
-            selectedDate={this.date}
-            onChange={this.handleDateChange}
-          />          
-        </Toolbar>  
+      <div style={styles.container}>
+        <div style={layoutStyle}>
+          <Card style={styles.navigation}>            
+            {this.props.navigation}
+          </Card>   
 
-        { !this.receipts.isLoading &&
-          <BootstrapTable 
-            data={this.receipts.getAll()} 
-            options={tableOptions}                         
-            hover
-            bordered={false}
-            expandableRow={(row) => true}
-            expandComponent={this.getExpandComponent}            
-          >
-            <TableHeaderColumn dataField='number' isKey>Belegnummer</TableHeaderColumn>
-            <TableHeaderColumn dataField='date' dataFormat={this.getTime}>Zeit</TableHeaderColumn>
-            <TableHeaderColumn dataField=''>Kunde</TableHeaderColumn>
-            <TableHeaderColumn dataField=''>Mitarbeiter</TableHeaderColumn>            
-            <TableHeaderColumn dataField='' width={200}>Bemerkung</TableHeaderColumn>            
-            <TableHeaderColumn dataField='' dataAlign="right">Bar</TableHeaderColumn>
-            <TableHeaderColumn dataField='' dataAlign="right">EC</TableHeaderColumn>            
-            <TableHeaderColumn dataField='totalPrice' width={200} dataAlign="right" dataFormat={this.getPrice}>Belegsumme</TableHeaderColumn>          
-          </BootstrapTable>                                              
-        }
-      </div>            
-      )
+          <div style={styles.receiptList}>
+            <ReceiptList
+              onReceiptClick={this.handleReceiptClick}
+            />
+          </div>
+          
+          <div style={styles.receiptDetails}>
+            { this.selectedReceipt &&  
+              <ReceiptDetails
+                receipt={this.selectedReceipt}
+                onClose={this.handleDetailsClose}
+              />              
+            }
+          </div>
+        </div>
+      </div>
+    )
   }
 }

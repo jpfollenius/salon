@@ -1,5 +1,6 @@
 html, body {
     height: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -7,10 +8,10 @@ body {
     font-size: 16px;
     line-height: 20px;
     background-color: #ebeff2;
-    user-select: none;
+    user-select: none;   
 }
 
-.timeline-2 {
+.timeline-2 {    
   border-left: 2px solid #98a6ad;
   position: relative; }
   .timeline-2 .time-item:after {
@@ -111,8 +112,8 @@ body {
     margin-right: 5px;
     margin-bottom: 5px;    
     padding: 10px;
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     background-color: orange;
     color: black;
     text-align: center;    
@@ -251,6 +252,48 @@ tr {
     transition: opacity 300ms;
 }
 
+.page-enter {    
+    transform: translate(100vw);    
+}
+
+.page-enter.page-enter-active {
+    transform: translate(0%);
+    transition: transform 500ms ease-in-out; 
+}
+
+.page-leave {    
+    position: absolute;
+    top: 40;
+    left: 0;
+    transform: translate(0%);
+}
+
+.page-leave.page-leave-active {
+    transform: translate(-100vw);
+    transition: transform 500ms ease-in-out;
+}
+
+.rev-page-enter {    
+    transform: translate(-100vw);    
+}
+
+.rev-page-enter.rev-page-enter-active {
+    transform: translate(0%);
+    transition: transform 500ms ease-in-out; 
+}
+
+.rev-page-leave {    
+    position: absolute;
+    top: 40;
+    left: 0;
+    transform: translate(0%);
+}
+
+.rev-page-leave.rev-page-leave-active {
+    transform: translate(100vw);
+    transition: transform 500ms ease-in-out;
+}
+
 /* react-bootstrap-table modifications */
 
 .react-bs-table td { outline: none !important; }
@@ -270,3 +313,10 @@ tr {
    animation: grow450 200ms linear;
 }
 
+.col-hidden {
+    display: none;
+}
+
+.labels {
+    display: none;
+}

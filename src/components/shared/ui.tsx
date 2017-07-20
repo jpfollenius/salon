@@ -6,5 +6,6 @@ import Icon from './icon'
 import DatePicker from './date-picker'
 import Spinner from './spinner'
 import Card from './card'
+import CardTitle from './card-title'
 
-export {Button, Buttons, Toolbar, NumberEdit, Icon, DatePicker, Spinner, Card}
+export {Button, Buttons, Toolbar, NumberEdit, Icon, DatePicker, Spinner, Card, CardTitle}

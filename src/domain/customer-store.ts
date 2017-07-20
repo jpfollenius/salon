@@ -74,6 +74,10 @@ export class CustomerStore {
   userId: string
   @observable customers: Customer[] = []
 
+  maleRunningCustomer: Customer
+  femaleRunningCustomer: Customer
+  childRunningCustomer: Customer
+
   load(userId: string) {
     this.userId = userId
 
@@ -92,6 +96,20 @@ export class CustomerStore {
       this.doRemoveChild(child.key)
     })
 
+    this.maleRunningCustomer = new Customer(this)
+    this.maleRunningCustomer.gender = Gender.Male
+    this.maleRunningCustomer.firstName = ''
+    this.maleRunningCustomer.lastName = 'Laufkunde Mann'
+
+    this.femaleRunningCustomer = new Customer(this)
+    this.femaleRunningCustomer.gender = Gender.Female
+    this.femaleRunningCustomer.firstName = ''
+    this.femaleRunningCustomer.lastName = 'Laufkunde Frau'
+
+    this.childRunningCustomer = new Customer(this)
+    this.childRunningCustomer.gender = Gender.Child
+    this.childRunningCustomer.firstName = ''
+    this.childRunningCustomer.lastName = 'Laufkunde Kind'
   }
 
   @action private doAddChild(id, data) {

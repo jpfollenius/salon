@@ -14,7 +14,7 @@ import { ReceiptStore } from '../domain/receipt-store'
 import CashPoint from './cash-point/cash-point'
 import Calendar from './calendar/calendar'
 import Archive from './archive/archive'
-import CustomerList from './customers/customer-list'
+import Customers from './customers/customers'
 import { CustomerStore } from '../domain/customer-store'
 
 interface MainProps {
@@ -90,7 +90,7 @@ export default class Main extends React.Component<MainProps, {}> {
             case View.Calendar:
                 return <Calendar />
             case View.Customers:
-                return <CustomerList />
+                return <Customers />
             case View.Inventory:
                 return <p>Bestand</p>
             case View.Archive:

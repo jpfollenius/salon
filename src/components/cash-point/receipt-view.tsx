@@ -34,9 +34,9 @@ class ReceiptItemView extends React.Component<ReceiptItemViewProps, {}> {
         return (
             <tr className='receipt-row' onClick={ (e) => {this.props.onClick(this.props.idx)} }>                        
                 <td>{ receiptItem.product.name }</td>
-                <td className='col-right'>{ receiptItem.quantity }</td>
-                <td className='col-right'>{ formatPrice(receiptItem.price) } €</td>
-                <td className='col-right col-highlighted'>{ formatPrice(receiptItem.totalPrice) } €</td>                        
+                <td style={{width: 100}} className='col-right'>{ receiptItem.quantity }</td>
+                <td style={{width: 100}} className='col-right'>{ formatPrice(receiptItem.price) } €</td>
+                <td style={{width: 100}} className='col-right col-highlighted'>{ formatPrice(receiptItem.totalPrice) } €</td>                        
             </tr>       
         )
     }
@@ -63,7 +63,7 @@ class ExpandedReceiptItemView extends React.Component<ReceiptItemViewProps, {}> 
                         <Button>Retoure</Button>                        
                     </ButtonToolbar>
                 </td>
-                <td className='col-right'>                    
+                <td style={{width: 100}} className='col-right'>                    
                     <FormControl 
                         onClick={(e) => {e.defaultPrevented = true}}
                         className='pull-right number-edit' 
@@ -72,8 +72,8 @@ class ExpandedReceiptItemView extends React.Component<ReceiptItemViewProps, {}> 
                         onChange={ this.handleQuantityChange }
                     />                                     
                 </td>
-                <td className='col-right'>{ formatPrice(receiptItem.price) } €</td>          
-                <td className='col-right col-highlighted'>{ receiptItem.totalPrice } €</td>                        
+                <td style={{width: 100}} className='col-right'>{ formatPrice(receiptItem.price) } €</td>          
+                <td style={{width: 100}} className='col-right col-highlighted'>{ receiptItem.totalPrice } €</td>                        
             </tr>             
         )
     }
@@ -95,9 +95,7 @@ class ExpandedReceiptItemView extends React.Component<ReceiptItemViewProps, {}> 
 
 interface ReceiptViewProps {
     receipt: Receipt  
-    viewState?: ViewState  
-    onPay
-    canPay: boolean
+    viewState?: ViewState      
 }
 
 @inject('viewState')  @observer
@@ -113,13 +111,13 @@ export default class ReceiptView extends React.Component<ReceiptViewProps, {}> {
 
         return (
             <div>
-                <Table responsive hover condensed striped className='receipt-table'>
+                <Table hover condensed bordered striped className='receipt-table'>
                     <thead>
                         <tr>
                             <th></th>
-                            <th className='col-right'>Anzahl</th>
-                            <th className='col-right'>Einzelpreis</th>
-                            <th className='col-right'>Preis</th>                        
+                            <th style={{width: 100}} className='col-right'>Anzahl</th>
+                            <th style={{width: 100}} className='col-right'>Einzelpreis</th>
+                            <th style={{width: 100}} className='col-right'>Preis</th>                        
                         </tr>
                     </thead>
                     <tbody>
@@ -128,27 +126,9 @@ export default class ReceiptView extends React.Component<ReceiptViewProps, {}> {
                 </Table>
                 <div className='total-price'>
                     { formatPrice(this.props.receipt.totalPrice) } €
-                </div>
-                <Buttons rightAligned style={styles.buttons}>
-                    <TransitionGroup
-                        transitionName='button-fade'
-                        transitionEnterTimeout={300}
-                        transitionLeaveTimeout={300}
-                    >
-                        { this.props.canPay &&
-                            <ButtonToolbar key={1}>
-                                <Button onClick={ this.handleDiscardClick }>Verwerfen</Button>
-                                <Button primary onClick={ this.props.onPay }>Kassieren</Button>                                
-                            </ButtonToolbar>
-                        }
-                    </TransitionGroup>
-                </Buttons>
+                </div>                
             </div>
         )
-    }
-
-    handleDiscardClick = () => {
-        this.props.receipt.clear()
     }
 
     @action handleRowClick(idx) {

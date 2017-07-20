@@ -5,7 +5,7 @@ import { Product } from '../../domain/product-store'
 
 const styles = {
     favoriteIcon: {
-        marginTop: '5px' 
+      //marginTop: '5px' 
     }
 }
 
@@ -22,7 +22,7 @@ export class CatalogueTile extends React.Component<CatalogueTileProps, {}> {
         return (            
             <div 
                 className='catalogue-tile' 
-                style={{backgroundColor: this.props.bgColor, color: this.props.textColor}}
+                style={{padding: 5, backgroundColor: this.props.bgColor, color: this.props.textColor}}
                 onClick={ this.props.onClick } 
             >
                 { this.props.showFavorite &&

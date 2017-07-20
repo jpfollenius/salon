@@ -3,7 +3,6 @@ import { observable, action, autorun } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import * as BigCalendar from 'react-big-calendar'
 import * as moment from 'moment'
-
 import * as ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
 import * as FormControl from 'react-bootstrap/lib/FormControl'
 import * as DropdownButton from 'react-bootstrap/lib/DropdownButton'
@@ -16,6 +15,10 @@ import { Appointment, Appointments, AppointmentStore } from '../../domain/appoin
 import commonStyles from '../../styles'
 
 const styles = {
+    container: {
+        margin: 20,
+        minHeight: 'calc(100vh - 80px)',
+    },
     modeButtons: {        
         marginRight: '10px',
     }
@@ -37,7 +40,7 @@ export default class Calendar extends React.Component<CalendarProps, {}> {
     
     render() {       
         return (         
-            <Card style={commonStyles.contentContainer}>                 
+            <Card style={styles.container}>                 
                 <Toolbar style={commonStyles.cardToolbar}>                    
                     <Buttons>
                         <ButtonGroup style={styles.modeButtons}>
@@ -57,7 +60,7 @@ export default class Calendar extends React.Component<CalendarProps, {}> {
                     </Buttons>                
                 </Toolbar>
 
-                { this.getCalendarContent() }                
+                { this.getCalendarContent() }                                
             </Card>
 
         )

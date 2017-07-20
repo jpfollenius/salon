@@ -5,16 +5,10 @@ import * as Nav from 'react-bootstrap/lib/Nav'
 import * as NavItem from 'react-bootstrap/lib/NavItem'
 
 import ReceiptArchive from './receipt-archive'
-import { Toolbar, Card } from '../shared/ui'
 
 enum ArchivePage {
   Receipts,
   DailyStatements,  
-}
-
-const style = {
-  margin: '40px',
-  minHeight: 'calc(100vh - 140px)'
 }
 
 interface ArchiveProps {
@@ -31,26 +25,17 @@ export default class Archive extends React.Component<ArchiveProps, {}> {
 
   render() {
     const navigation = (
-      <Nav bsStyle="pills" activeKey={this.currentPage} onSelect={this.handlePageSelect}>
+      <Nav bsStyle="pills" stacked activeKey={this.currentPage} onSelect={this.handlePageSelect}>
         <NavItem eventKey={ArchivePage.Receipts}>Belege</NavItem>
         <NavItem eventKey={ArchivePage.DailyStatements}>Tagesabschlüsse</NavItem>                        
       </Nav>
     )
-
-    let content
+    
     switch (this.currentPage) {
       case ArchivePage.Receipts:
-        content = <ReceiptArchive navigation={navigation}/>        
-        break
+        return <ReceiptArchive navigation={navigation}/>                
       case ArchivePage.DailyStatements:
-        content = <div />
-        break        
-    }    
-
-    return (
-      <Card style={style}>
-        {content}
-      </Card>
-    )
+        return <div />        
+    }
   }
 }

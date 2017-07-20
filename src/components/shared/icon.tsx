@@ -7,13 +7,11 @@ interface IconProps {
     fontawesome?: boolean
     spinning?: boolean
     onClick?
+    larger?
 }
 
 export default class Icon extends React.Component<IconProps, {}> {
-    handleClick = (e) => {
-        console.log(e)
-        e.stopPropagation()
-        console.log(this.props.onClick)
+    handleClick = (e) => {    
         if (this.props.onClick)
             this.props.onClick(e)
     }
@@ -22,6 +20,10 @@ export default class Icon extends React.Component<IconProps, {}> {
         let faClassName = 'fa fa-' + this.props.icon
         if (this.props.spinning) {
             faClassName = faClassName + ' fa-spin'
+        }
+
+        if (this.props.larger) {
+            faClassName = faClassName + ' fa-lg'
         }
 
         return this.props.fontawesome

@@ -5,6 +5,13 @@ import { Customer } from '../../domain/customer-store'
 import { Card, Button, Buttons, Icon } from '../shared/ui'
 
 const styles={
+  layout: {
+    height: '100%',
+  },
+  titleLayout: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
   comment: {
     marginTop: '20px',
   },
@@ -21,8 +28,8 @@ const styles={
 
 interface CustomerDetailsProps {
   customer: Customer
-  onCustomerDelete?: () => void
-  style?
+  onCustomerDelete?: () => void 
+  onClose: () => void
 }
 
 @observer
@@ -38,8 +45,11 @@ export default class CustomerDetails extends React.Component<CustomerDetailsProp
     const { customer } = this.props
 
     return (        
-      <Card className='grow450' style={this.props.style}>
-        <h2>{customer.fullName}</h2>
+      <Card style={styles.layout}>
+        <div style={styles.titleLayout}>
+          <h3>{customer.fullName}</h3>
+          <Icon icon='times' larger fontawesome onClick={this.props.onClose} />
+        </div>
         <div style={styles.comment}>{customer.comment}</div>
         
         <div style={styles.contactInfo}>

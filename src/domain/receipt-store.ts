@@ -3,11 +3,12 @@ import * as moment from 'moment'
 import * as firebase from 'firebase'
 
 import productStore, { Product, ProductStore } from './product-store'
+import { Customer } from './customer-store'
 
 export class ReceiptItem {
     @observable product: Product
     @observable quantity: number
-    @observable price: number
+    @observable price: number    
     
     constructor(product: Product, quantity: number) {        
         this.product = product
@@ -30,6 +31,7 @@ export class Receipt {
     id: string
     date: Date
     @observable items: ReceiptItem[] = []
+    @observable customer: Customer
 
     constructor(store: ReceiptStore, id: string) {
         this.store = store
@@ -68,6 +70,11 @@ export class Receipt {
 
     @action clear() {
         this.items = []
+    }
+
+    save() {
+        this.store.addReceipt(this)
+        this.clear()
     }
     
 }
@@ -185,7 +192,7 @@ export class ReceiptStore {
         this.generateReceiptNumber().then((receiptNumber) => {            
             const listRef = firebase.database().ref(this.userId + '/receipts')
             const receiptRef = listRef.push()
-            
+          
             receiptRef.setWithPriority({
                 number: receiptNumber,
                 ...receiptData,     
